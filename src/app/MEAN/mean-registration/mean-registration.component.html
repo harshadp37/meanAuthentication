@@ -1,0 +1,52 @@
+<app-side-panel [routeTitle]="from"></app-side-panel>
+
+<div class="containe">
+    <div class="section1">
+
+        <h3><span style="color: #c3002f">Angular,</span><span style="color: #026e00;"> NodeJS,</span><span style="color: #f78e26;">
+                ExpressJS, </span> &<span style="color: #13a54e"> MongoDB</span>
+            <br> Registration : PART I</h3>
+
+        <div style="border: 2px solid grey"></div><br>
+
+    </div>
+
+    <div id="userModel">
+        <span>var mongoose = require("mongoose");<br>
+            var bcrypt = require("bcrypt");</span><br><br>
+
+        <span>var userSchema = new mongoose.Schema(&#123;</span><br>
+        <span>&nbsp; name: &#123; type: String, required: true, validate: nameValidator &#125;,</span><br>
+        <span>&nbsp; username: &#123; type: String, required: true, unique: true, validate: usernameValidator
+            &#125;,</span><br>
+        <span>&nbsp; email: &#123; type: String, required: true,unique: true,lowercase : true, validate:
+            emailValidator &#125;,</span><br>
+        <span>&nbsp; password: &#123; type: String, required: true, validate: passwordValidator &#125;,</span><br>
+        <span>&#125;, &#123; collection: "users" &#125;);</span><br><br>
+
+        <span>module.exports = mongoose.model("user", userSchema);</span>
+    </div>
+    <div id="userRoute">userRoute</div>
+    <div id="authService">authService</div>
+    <div id="userService">userService</div>
+    <div id="registerCss">registerCss</div>
+    <div id="registerHtml">registerHtml</div>
+    <div id="registerTS">registerTS</div>
+    <div id="appRouting">appRouting</div>
+    <div id="appCss">appCss</div>
+    <div id="appHtml">appHtml</div>
+    <div id="appTS">appTS</div>
+    <div id="appModule">appModule</div>
+    <div id="index">index</div>
+    <div id="main">main</div>
+    <div id="angular">angular</div>
+    <div id="config">config</div>
+    <div id="package">package</div>
+    <div id="server">server</div>
+
+    <br>
+
+    <div style="border: 2px solid grey; margin-left: -15px; margin-right: -15px;"></div><br>
+
+    <app-comments title="registration"></app-comments>
+</div>

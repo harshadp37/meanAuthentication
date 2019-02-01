@@ -1,0 +1,263 @@
+<div class="containe">
+  <div class="section1">
+    
+    <h3><span style="color: #c3002f">Angular,</span><span style="color: #026e00;"> NodeJS,</span><span style="color: #f78e26;">
+        ExpressJS, </span> &<span style="color: #13a54e"> MongoDB</span>
+      <br> Introduction And Setup</h3>
+
+    <div style="border: 2px solid grey"></div><br>
+
+    <p> MEAN stack is a combinations of certain Technologies like <span style="color: #c3002f">Angular </span>(which is
+      JavaScript Front-End Framework), <span style="color: #026e00;"> NodeJS </span>(which allows us to run JavaScript
+      on Server), <span style="color: #f78e26;"> ExpressJS </span>(which is a Framework of NodeJS) & Finally <span
+        style="color: #13a54e">MongoDB </span>(which is NoSQL database i.e it stores data in document format).<br><br>
+      First, We need to install NodeJS(<a style="text-decoration: none" href="https://nodejs.org/en/" target="_blank">Click
+        here to get NodeJS</a>) And MongoDB.(<a style="text-decoration: none" href="https://www.mongodb.com/" target="_blank">Click
+        here to get MongoDB</a>)<br><br> Install NodeJS and MongoDB.Make Sure u checked <span style="color: tomato">Install
+        MongoDB as a Service</span> while installing MongoDB.<br><br> After Installing MongoDB,We can start creating
+      Project by using <span style="color: #ec3e34">Angular CLI</span>(which is command Line tool for Angular).To Know
+      More About <a style="text-decoration: none" href="https://cli.angular.io/">Angular CLI</a>.<br><br> We need to install <span style="color: #ec3e34">Angular
+        CLI</span> globally, So that we can access it in every Project.<br> Run following Command to install <span
+        style="color: #ec3e34">Angular CLI</span> Globally.
+    </p>
+
+    <br>
+
+    <div class="cmdCode">
+      <p>npm install -g @angular/cli@latest</p>
+    </div>
+
+    <br>
+
+    <p> This will install <span style="color: #ec3e34">Angular CLI</span> globally.We can check it by Running "<span
+        style="color: steelblue">ng --version</span>" <br><br> After that, We can use "<span style="color: steelblue">ng</span>"
+      to create new Angular Project, Generate New Angular Components, Services etc.<br><br> To Create new Angular
+      Project with some Sample code & packages, We going to do it with --skipTests. If you want test Files then u
+      should not include --skipTests<br> Run Following Command(where Angular2Authentication is name of our Project).
+    </p>
+
+    <br>
+
+    <div class="cmdCode">
+      <p>ng new Angular2Authentication --skipTests</p>
+    </div>
+
+    <br>
+
+    <p> Type "y" for Routing & Select "CSS" as Stylesheet Format<br><br> It will Install neccesary Packages And then We
+      can run our project with "<span style="color: steelblue">ng serve</span>" command. but this will be Angular's
+      Development Server which runs on "localhost:4200"
+    </p>
+
+    <br>
+
+    <p class="Ptitle">NodeJS as Server</p>
+
+    <br>
+
+    <p>&nbsp;&nbsp; We dont want to use Angular's Development Server as our Server for Production. We want NodeJS as
+      our Server. We can do it by First going into Project Folder which is just we have created with "<span style="color: steelblue">ng
+        new</span>".<br>After that we will create "<span style="color: steelblue">server.js</span>" (which will be the
+      main .js file of our server).
+    </p>
+
+    <br><br>
+
+    <p class="Ptitle">server.js</p>
+
+    <br>
+
+    <p>&nbsp;&nbsp; Before editing server.js, We need to install some packages like <span style="color: steelblue">Express</span>(which
+      does routing easy), <span style="color: steelblue">body-parser</span>(to intercept
+      the data coming from front end), <span style="color: steelblue">mongoose</span>(to connect with
+      MongoDB) & <span style="color: steelblue">morgan</span>(its just for logging purpose).<br><br>
+      Run Following commands to install Packages one by one.
+    </p>
+
+    <br>
+
+    <ul style="font-weight: bold">
+      <li>npm install express --save</li>
+      <li>npm install body-parser --save</li>
+      <li>npm install mongoose --save</li>
+      <li>npm install morgan --save</li>
+    </ul>
+
+    <p>
+      "--save" means we are saving this all dependencies in package.json(This will be same where our Angular
+      dependencies saved).Also create "<span style="color: steelblue">config.js</span>" in same Folder to hold our
+      MongoDB connection String.This will look like Following :
+    </p><br>
+
+    <div class="code">
+      <div class="fileName">
+        config.js
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="mainCode">
+        var config = &#123;<br>
+        url : "mongodb://localhost/Angular2Authentication",<br>
+        db : "Angular2Authentication"<br>
+        &#125;<br><br>
+        module.exports = config;
+      </div>
+    </div><br>
+
+    <p>
+      After creating config.js, We can start editing "<span style="color: steelblue">server.js</span>"
+      will contain following code :
+    </p><br>
+
+    <div class="code">
+      <div class="fileName">
+        server.js
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="mainCode">
+        var express = require("express");<br>
+        var bodyParser = require("body-parser");<br>
+        var morgan = require("morgan");<br>
+        var path = require("path");<br>
+        var mongoose = require("mongoose");<br>
+        var config = require("./config");<br><br>
+
+        var app = express();<br><br>
+
+        var port = process.env.PORT || 3000;<br><br>
+
+        mongoose.connect(config.url, (err, db)=>&#123;<br>
+        if(err)&#123;<br>
+        console.log(err);<br>
+        &#125;else&#123;<br>
+        console.log("Successfully Connected to Database : " + config.db);<br>
+        &#125;<br>
+        &#125;);<br><br>
+
+        app.use(morgan("dev"));<br>
+        app.use(bodyParser.json());<br>
+        app.use(bodyParser.urlencoded(&#123;extended : true&#125;));<br>
+        app.use(express.static(path.join(__dirname, "dist/Angular2Authentication")));<br><br>
+
+        app.use('*', (req, res)=> &#123;<br>
+        res.sendFile(path.join(__dirname, "dist/Angular2Authentication/index.html"));<br>
+        &#125;);<br>
+        <br>
+        app.listen(port, ()=> &#123;<br>
+        console.log('App Listenting On Port ' + port);<br>
+        &#125;);<br>
+      </div>
+    </div><br>
+    <p>
+      This server.js when executed gonna give us error like "It doesn't find '<span style="color: steelblue">dist/Angular2Authentication</span>'"<br>
+      This folder will be created after we run "<span style="color: steelblue">ng build</span>".
+      So run "<span style="color: steelblue">ng build</span>".
+    </p><br>
+
+    <div class="cmdCode">
+      <p>ng build</p>
+    </div><br>
+
+    <p>It will create "<span style="color: steelblue">dist/Angular2Authentication</span>" & "<span style="color: steelblue">index.html</span>"
+      File which we are providing in "<span style="color: steelblue">server.js</span>".
+    </p><br>
+
+    <p>
+      Now, We are ready to start our "<span style="color: steelblue">SERVER</span>" which is going to run on "<span
+        style="color: steelblue">PORT 3000</span>".<br>
+      To Start, Run Following command :
+    </p>
+
+    <br>
+
+    <div class="cmdCode">
+      <p>node server.js</p>
+    </div>
+
+    <br>
+
+    <p>
+      When we make any changes in angular Files, we Always needs to run "<span style="color: steelblue">ng build</span>".<br>
+      & When we make any changes in Server Files, we Always needs to restart Server i.e. we need to run "<span style="color: steelblue">node
+        server.js</span>".<br><br>
+      To make it automatically detect changes whenever we make change. We need to run "<span style="color: steelblue">ng
+        build</span>" in --watch mode & For server, there is utility called "<span style="color: steelblue">nodemon</span>".
+      We just need to install it using npm<br>
+      To install nodemon, Run "<span style="color: steelblue">npm install -g nodemon</span>"<br><br>
+
+      After installing nodemon, make changes in package.json
+    </p><br>
+
+    <div class="code">
+      <div class="fileName">
+        package.json
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="mainCode">
+        "scripts": &#123;<br>
+        "ng": "ng",<br>
+        "start": "node server.js", <span style="color: tomato;">//change only "ng serve" to "node server.js"</span><br>
+        "build": "ng build",<br>
+        "test": "ng test",<br>
+        "lint": "ng lint",<br>
+        "e2e": "ng e2e"<br>
+        &#125;
+      </div>
+    </div><br>
+
+    <p>
+      Note : Dont change Anything else.<br><br>
+      Then open two command prompt,<br>
+      On First command prompt, Run : <br>
+    </p>
+
+    <br>
+
+    <div class="cmdCode">
+      <p>ng b --watch</p>
+    </div><br>
+
+    <p>
+      On Second command prompt, Run : <br>
+    </p>
+
+    <br>
+
+    <div class="cmdCode">
+      <p>nodemon</p>
+    </div>
+
+    <br>
+
+    <img class="setupCommandPrompt" src="../../../assets/images/setupCommandPrompt.png">
+
+    <br><br>
+
+    <p>
+        Open the browser then go to this URL "<span style="color: steelblue">localhost:3000</span>" and you will see this
+    </p>
+
+    <br>
+
+    <img class="setupOutput" src="../../../assets/images/setupOutput.png">
+
+    <br><br>
+
+    <p>
+      Now We are ready to create Authentication using <span style="color: tomato;">MEAN Stack</span>.<br>
+      First Start with <a [routerLink]="[ '/MEAN/registration' ]" >Part I : Registration >></a>
+    </p>
+
+    <br>
+
+    <div style="border: 2px solid grey; margin-left: -15px; margin-right: -15px;"></div><br>
+  </div>
+
+  <app-comments title="Intro&Setup"></app-comments>
+
+</div>

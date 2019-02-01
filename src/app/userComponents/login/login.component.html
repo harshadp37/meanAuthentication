@@ -1,0 +1,51 @@
+<div class="container p-5">
+  <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.valid)">
+    <div class="card">
+      <div class="card-header bg-secondary">
+        <label class="col-form-label">Login</label>
+      </div>
+
+      <div class="card-body">
+
+        <div class="form-group">
+          <label for="username" class="col-form-label"><strong>Username</strong></label>
+          <input class="form-control" formControlName="username" name="username" type="text" placeholder="Enter Username"
+            [ngClass]="{'is-valid': (loginForm.controls.username.valid && loginForm.controls.username.dirty), 'is-invalid' : (!loginForm.controls.username.valid && loginForm.controls.username.dirty) || (!loginForm.controls.username.valid && loginForm.controls.username.touched) || (!loginForm.controls.username.valid && submitted)}">
+
+          <div [ngClass]="{'invalid-feedback': true}">
+            <span *ngIf="(loginForm.controls.username.errors?.required && loginForm.controls.username.dirty) || (loginForm.controls.username.errors?.required && loginForm.controls.username.touched) || (loginForm.controls.username.errors?.required && submitted)">This
+              field is Required.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="col-form-label"><strong>Password</strong></label>
+          <input class="form-control" formControlName="password" name="password" type="password" placeholder="Enter Password"
+            [ngClass]="{'is-valid': (loginForm.controls.password.valid && loginForm.controls.password.dirty), 'is-invalid': (!loginForm.controls.password.valid && loginForm.controls.password.dirty) || (!loginForm.controls.password.valid && loginForm.controls.password.touched) || (!loginForm.controls.password.valid && submitted)}">
+
+          <div [ngClass]="{'invalid-feedback': true}">
+            <span *ngIf="(loginForm.controls.password.errors?.required && loginForm.controls.password.dirty) || (loginForm.controls.password.errors?.required && loginForm.controls.password.touched) || (loginForm.controls.password.errors?.required && submitted)">This
+              Field is Required.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-footer">
+        <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid || loading">Login</button>
+        <a class="forgotPassword ml-3" [routerLink]="[ '/forgotPassword' ]">Forgot Password.?</a>
+      </div>
+    </div>
+  </form>
+
+  <br>
+
+  <div *ngIf="successMsg">
+    <h4><span class="badge badge-success"><span class="glyphicon glyphicon-ok"></span> {{ successMsg }}</span></h4>
+  </div>
+
+  <div *ngIf="errorMsg">
+    <h4><span class="badge badge-danger"><span class="glyphicon glyphicon-remove"></span> {{ errorMsg }}</span></h4>
+    <button [routerLink]="[ '/sendActivationLink']" class="btn btn-success" *ngIf="activationLink">Resend Link</button>
+  </div>
+</div>

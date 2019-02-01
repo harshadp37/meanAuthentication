@@ -1,0 +1,281 @@
+.commentDiv .header{
+    padding: 15px 0 15px 15px;
+    margin-bottom: 10px;
+}
+
+.commentDiv .commentTitle{
+    margin: 0;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.commentDiv .loggedIn{
+    float: right;
+    background-color: grey;
+    color: #fff;
+    font-size: 1rem;
+    margin: 0;
+    padding: 5px 10px 5px 10px;
+}
+
+.commentDiv .comment-form{
+    width: 80%;
+    padding: 5px;
+}
+
+.commentDiv .comment-form button{
+    float: right;
+    background-color: #008cba;
+    border: 2px solid #006080;
+    margin-top: 5px;
+}
+
+.commentDiv .commentsList{
+    margin-top: 50px;
+    padding: 5px;
+}
+
+.commentDiv .commentsList ul {
+    list-style: none;
+    padding: 0;
+}
+
+.commentDiv .commentsList ul li{
+    padding-top: 3px;
+    padding-bottom: 0px;
+}
+
+.commentDiv .commentsList ul li{
+    background-color: lightskyblue;
+    padding-left: 5px;
+    border: 2px solid gray;
+}
+
+.commentDiv .commentsList ul p{
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.commentDiv .commentsList .commentHeader{
+    font-size: 15px;
+}
+
+.commentDiv .commentsList .commentHeader .postedBy{
+    font-size: 17px;
+    font-weight: bold;
+    color: tomato;
+}
+
+.commentDiv .commentsList .commentHeader .postedAt{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commentDiv .commentsList .commentBody{
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.commentDiv .commentsList .commentBody button{
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commentDiv .commentsList .commentBody .edit-form{
+    margin-top: 5px;
+    width: 80%;
+    display: none;
+}
+
+.commentDiv .commentsList .commentFooter{
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commentDiv .commentsList .commentFooter button{
+    margin-right: 10px;
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commentDiv .commentsList .commentFooter .reply-form{
+    margin-top: 5px;
+    width: 80%;
+    display: none;
+}
+
+.commentDiv .commentsList .commentFooter .replyAnchor{             /*AnchorClass*/
+    cursor: pointer;
+    width: fit-content;
+}
+
+.commentDiv .commentsList .commentFooter .replysList{
+    display: none;
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.commentDiv .commentsList .commentFooter .replysList ul li{
+    background-color: lightseagreen;
+    padding-left: 5px;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    border-left: 2px solid gray;
+    border-right: none;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyHeader{
+    font-size: 15px;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyHeader .repliedBy{
+    font-size: 17px;
+    font-weight: bold;
+    color: tomato;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyHeader .repliedAt{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyBody{
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyFooter{
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyFooter button{
+    margin-right: 10px;
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.glyphicon-repeat-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+.loading-icon{
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px){
+    .commentDiv .header{
+        padding: 10px 0 10px 10px;
+        margin-bottom: 10px;
+    }
+
+    .commentDiv .commentTitle{
+        display: inline-block;
+        margin: 5px;
+    }
+
+    .commentDiv .loggedIn{
+        float: left;
+    }
+
+    .commentDiv .comment-form{
+        width: 100%;
+    }
+
+    .commentDiv .commentsList .commentHeader{
+        font-size: 13px;
+    }
+    
+    .commentDiv .commentsList .commentHeader .postedBy{
+        font-size: 15px;
+    }
+    
+    .commentDiv .commentsList .commentHeader .postedAt{
+        font-size: 13px;
+    }
+
+    .commentDiv .commentsList .commentBody{
+        margin-left: 8px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .commentDiv .commentsList .commentBody button{
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .commentDiv .commentsList .commentBody .edit-form{
+        width: 95%;
+    }
+
+    .commentDiv .commentsList .commentFooter{
+        margin-left: 8px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .commentDiv .commentsList .commentFooter button{
+        margin-right: 8px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    /*Reply Classes*/
+
+    .commentDiv .commentsList .commentFooter .reply-form{
+        width: 95%;
+    }
+
+    .commentDiv .commentsList .commentFooter .replysList .replyHeader{
+        font-size: 13px;
+    }
+    
+    .commentDiv .commentsList .commentFooter .replysList .replyHeader .repliedBy{
+        font-size: 15px;
+    }
+    
+    .commentDiv .commentsList .commentFooter .replysList .replyHeader .repliedAt{
+        font-size: 13px;
+    }
+
+    .commentDiv .commentsList .commentFooter .replysList .replyBody{
+        margin-left: 8px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+    
+    .commentDiv .commentsList .commentFooter .replysList .replyFooter{
+        margin-left: 8px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .commentDiv .commentsList .commentFooter .replysList .replyFooter button{
+        margin-right: 8px;
+        font-size: 13px;
+        font-weight: bold;
+    }
+}
+

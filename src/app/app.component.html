@@ -1,0 +1,158 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" *ngIf="!loading">
+  <div class="container">
+    <a class="navbar-brand" [routerLink]="[ '/' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Angular2+Authentication</a>
+
+    <div class="notification-wrapper notification-wrapper-sm" *ngIf="isLoggedIn">
+      <div class="notification-bell notification-bell-sm" (click)="showNotifications($event)">
+        <span class="count" id="notifications-count">{{newNotifications.length}}</span>
+        <span class="fa fa-bell"></span>
+      </div>
+
+      <div class="notification-container notification-container-sm" id="notification-dropdown">
+        <div class="notification-header">
+          <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
+          <span class="triangle"></span>
+          <span class="heading">Notifications</span>
+        </div>
+        <div class="notification-body">
+          <div class="notification" *ngFor="let notification of newNotifications">
+            <div class="notification-text">
+              <span class="highlight">{{notification.user.name}}</span> {{notification.action}}
+              {{notification.target}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarList" aria-controls="navbarList"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarList">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="[ '/' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" style="cursor: pointer;" data-toggle="dropdown" data-target="#dropdownMenu">MEAN
+            Stack
+            Authentication <span class="caret"></span></a>
+          <ul class="dropdown-menu bg-dark">
+            <li><a class="nav-link" [routerLink]="[ '/MEAN/intro&setup' ]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Introduction & Setup</a></li>
+            <li><a class="nav-link" [routerLink]="[ '/MEAN/registration' ]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Part I : Registration</a></li>
+            <li><a class="nav-link" [routerLink]="[ '/MEAN/login' ]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Part II : Login</a></li>
+            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="[ '/MEAN/login' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">MEAN-Login</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="[ '/profile' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            *ngIf="isLoggedIn">Profile</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto left-side">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="[ '/register' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            *ngIf="!isLoggedIn">Register</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="[ '/login' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+            *ngIf="!isLoggedIn">Login</a>
+        </li>
+
+        <li class="nav-item">
+
+          <div class="notification-wrapper" *ngIf="isLoggedIn">
+            <div class="notification-bell" (click)="showNotifications($event)">
+              <span class="count" id="notifications-count">{{newNotifications.length}}</span>
+              <span class="fa fa-bell"></span>
+            </div>
+
+            <div class="notification-container" id="notification-dropdown">
+              <div class="notification-header">
+                <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
+                <span class="triangle"></span>
+                <span class="heading">Notifications</span>
+              </div>
+              <div class="notification-body">
+                <div class="notification" *ngFor="let notification of newNotifications">
+                  <div class="notification-text">
+                    <span class="highlight">{{notification.user.name}}</span> {{notification.action}}
+                    {{notification.target}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer" (click)="logout()" data-toggle="modal" data-target="#loggingOutModal"
+            data-backdrop="static" *ngIf="isLoggedIn">Logout</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+</nav>
+
+<div class="modal fade" id="loggingOutModal" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title"><strong>LOGGING OUT...</strong></div>
+      </div>
+
+      <div class="modal-body">
+        <div>Please wait...Redirecting to LogIn Page.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal fade" id="sessionModal" role="dialog" data-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title"><strong>SESSION EXPIRED</strong></div>
+        <button [routerLink]="['/']" type="button" class="close" data-dismiss="modal">
+          <span>&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div>Your session is timed out. Please Log IN again.</div><br>
+        <button [routerLink]="['/login']" type="button" class="btn btn-primary" data-dismiss="modal">
+          <span>Log In</span>
+        </button>&nbsp;
+        <button [routerLink]="['/']" type="button" class="btn btn-primary" data-dismiss="modal">
+          <span>Close</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="!loading">
+  <router-outlet></router-outlet>
+</div>

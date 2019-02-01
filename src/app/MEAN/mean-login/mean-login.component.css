@@ -1,0 +1,24 @@
+.containe{
+    position: absolute;
+    border: 2px solid black;
+    background-color: bisque;
+    width: 60vw;
+    top: 63px;
+    margin-left: 10vw;
+    margin-right: 30vw;
+    padding: 15px 15px 0 15px;
+    z-index: -1;
+}
+
+.containe div{
+    height: 100vh;
+    background-color: cadetblue;
+}
+
+@media (max-width: 768px){
+    .containe{
+        width: 86vw;
+        margin-right: 11vw;
+        margin-left: 2vw;
+    }
+}

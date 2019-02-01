@@ -1,0 +1,118 @@
+<div class="container p-5">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.valid)" novalidate>
+    <div class="card">
+      <div class="card-header bg-secondary">
+        <label class="col-form-label">Register</label>
+      </div>
+
+      <div class="card-body">
+
+        <div class="form-group">
+          <label for="name"><strong>Full Name</strong></label>
+          <input class="form-control" formControlName="name" name="name" type="text" [ngClass]="{'is-valid': (registerForm.controls.name.valid && registerForm.controls.name.dirty), 'is-invalid': (!registerForm.controls.name.valid && registerForm.controls.name.dirty) || (!registerForm.controls.name.valid && registerForm.controls.name.touched) || (!registerForm.controls.name.valid && submitted)}">
+
+          <div [ngClass]="{'invalid-feedback': true}">
+            <span *ngIf="(registerForm.controls.name.errors?.required && registerForm.controls.name.dirty) || (registerForm.controls.name.errors?.required && registerForm.controls.name.touched) || (registerForm.controls.name.errors?.required && submitted)">This
+              Field is Required.</span>
+            <span *ngIf="(registerForm.controls.name.errors?.minlength) || (registerForm.controls.name.errors?.maxlength)">Name
+              should be between 3 and 30 characters.<br></span>
+            <span *ngIf="(registerForm.controls.name.errors?.pattern)">Name Should be FirstName And SurName with Space
+              between them.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="username"><strong>Username</strong></label>
+          <input class="form-control" formControlName="username" name="username" type="text" [ngClass]="{'is-valid': (registerForm.controls.username.valid && registerForm.controls.username.dirty && ValidUsername), 'is-invalid': (!registerForm.controls.username.valid && registerForm.controls.username.dirty) || (!registerForm.controls.username.valid && registerForm.controls.username.touched) || (!registerForm.controls.username.valid && submitted) || (!ValidUsername && registerForm.controls.username.dirty) || (!ValidUsername && registerForm.controls.username.touched) || (!ValidUsername && submitted)}"
+            (input)="checkUsername()">
+
+          <div [ngClass]="{'invalid-feedback': true}">
+            <span *ngIf="(registerForm.controls.username.errors?.required && registerForm.controls.username.dirty) || (registerForm.controls.username.errors?.required && registerForm.controls.username.touched) || (registerForm.controls.username.errors?.required && submitted)">This
+              Field is Required.</span>
+            <span *ngIf="(registerForm.controls.username.errors?.minlength) || (registerForm.controls.username.errors?.maxlength)">Username
+              should be between 4 and 15 characters.<br></span>
+            <span *ngIf="(registerForm.controls.username.errors?.pattern)">Username should contain Letters and Numbers
+              only.<br></span>
+            <span *ngIf="(!ValidUsername && usernameMsg)">{{ usernameMsg }}<br></span>
+          </div>
+
+          <div [ngClass]="{'valid-feedback': true}">
+            <span *ngIf="(ValidUsername && usernameMsg)"><span class="glyphicon glyphicon-ok"></span> {{ usernameMsg }}<br></span>
+          </div>
+
+          <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" *ngIf="checkingUsername"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="email"><strong>Email</strong></label>
+          <input class="form-control" formControlName="email" name="email" type="text" [ngClass]="{'is-valid': (registerForm.controls.email.valid && registerForm.controls.email.dirty  && ValidEmail), 'is-invalid': (!registerForm.controls.email.valid && registerForm.controls.email.dirty) || (!registerForm.controls.email.valid && registerForm.controls.email.touched) || (!registerForm.controls.email.valid && submitted) || (!ValidEmail && registerForm.controls.email.dirty) || (!ValidEmail && registerForm.controls.email.touched) || (!ValidEmail && submitted)}"
+            (input)="checkEmail()">
+
+          <div [ngClass]="{'invalid-feedback': true}">
+            <span *ngIf="(registerForm.controls.email.errors?.required && registerForm.controls.email.dirty) || (registerForm.controls.email.errors?.required && registerForm.controls.email.touched) || (registerForm.controls.email.errors?.required && submitted)">This
+              Field is Required.</span>
+            <span *ngIf="(registerForm.controls.email.errors?.pattern)">Invalid Email ID.</span>
+            <span *ngIf="(!ValidEmail && EmailMsg)">{{ EmailMsg }}</span>
+          </div>
+
+          <div [ngClass]="{'valid-feedback': true}">
+            <span *ngIf="(ValidEmail && EmailMsg)"><span class="glyphicon glyphicon-ok"></span> {{ EmailMsg }}</span>
+          </div>
+
+          <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate" *ngIf="checkingEmail"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="password"><strong>Password</strong></label>
+          <input class="form-control" formControlName="password" name="password" type="password" [ngClass]="{'is-valid': (registerForm.controls.password.valid && registerForm.controls.password.dirty), 'is-invalid': (!registerForm.controls.password.valid && registerForm.controls.password.dirty) || (!registerForm.controls.password.valid && registerForm.controls.password.touched) || (!registerForm.controls.password.valid && submitted)}"
+            (input)="checkPassword(registerForm.controls.password, registerForm.controls.confirmPassword)">
+
+          <div [ngClass]="{'invalid-feedback': true}">
+            <span *ngIf="(registerForm.controls.password.errors?.required && registerForm.controls.password.dirty) || (registerForm.controls.password.errors?.required && registerForm.controls.password.touched) || (registerForm.controls.password.errors?.required && submitted)">This
+              Field is Required.</span>
+            <span *ngIf="(registerForm.controls.password.errors?.minlength) || (registerForm.controls.password.errors?.maxlength)">Password
+              should be between 4 and 15 characters.<br></span>
+            <span *ngIf="(registerForm.controls.password.errors?.pattern)">Password must contain at least one
+              uppercase, lowercase & numeric character.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword"><strong>Confirm Password</strong></label>
+          <input class="form-control" formControlName="confirmPassword" name="confirmPassword" placeholder="Re-type Password"
+            type="password" [ngClass]="{'is-valid': (registerForm.controls.confirmPassword.valid && registerForm.controls.confirmPassword.dirty && passwordMatch), 'is-invalid': (!registerForm.controls.confirmPassword.valid && registerForm.controls.confirmPassword.dirty) || (!registerForm.controls.confirmPassword.valid && registerForm.controls.confirmPassword.touched) || (!registerForm.controls.confirmPassword.valid && submitted) || (!passwordMatch && registerForm.controls.confirmPassword.dirty) || (!passwordMatch && registerForm.controls.confirmPassword.touched) || (!passwordMatch && submitted)}"
+            (input)="checkPassword(registerForm.controls.password, registerForm.controls.confirmPassword)">
+
+          <div [ngClass]="{'invalid-feedback': true}">
+            <span *ngIf="(registerForm.controls.confirmPassword.errors?.required && registerForm.controls.confirmPassword.dirty) || (registerForm.controls.confirmPassword.errors?.required && registerForm.controls.confirmPassword.touched) || (registerForm.controls.confirmPassword.errors?.required && submitted)">This
+              Field is Required.<br></span>
+            <span *ngIf="(!passwordMatch && passwordMsg)">
+              {{ passwordMsg }}
+            </span>
+          </div>
+
+          <div [ngClass]="{'valid-feedback': true}">
+            <span *ngIf="(passwordMatch)" class="glyphicon glyphicon-ok"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-success" [disabled]="!registerForm.valid || !this.ValidUsername || !this.ValidEmail || !passwordMatch || loading">Submit</button>
+      </div>
+
+
+    </div>
+  </form>
+
+  <br>
+
+  <div *ngIf="errorMsg">
+    <h4><span class="badge badge-danger"><span class="glyphicon glyphicon-remove"></span> {{ errorMsg }}</span></h4>
+  </div>
+
+  <div *ngIf="successMsg">
+    <h4><span class="badge badge-success"><span class="glyphicon glyphicon-ok"></span> {{ successMsg }}</span></h4>
+  </div>
+</div>

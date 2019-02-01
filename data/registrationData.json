@@ -1,0 +1,132 @@
+[
+    {
+        "type": "folder",
+        "name": "MEAN_Authentication",
+        "subFolder": [
+            {
+                "type": "folder",
+                "name": "node_modules"
+            },
+            {
+                "type": "folder",
+                "name": "server",
+                "subFolder": [
+                    {
+                        "type": "folder",
+                        "name": "models",
+                        "subFolder": [
+                            {
+                                "id": "userModel",
+                                "name": "user.js"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "folder",
+                        "name": "route",
+                        "subFolder": [
+                            {
+                                "id": "userRoute",
+                                "name": "userRoute.js"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "folder",
+                "name": "src",
+                "subFolder": [
+                    {
+                        "type": "folder",
+                        "name": "app",
+                        "subFolder": [
+                            {
+                                "type": "folder",
+                                "name": "service",
+                                "subFolder": [
+                                    {
+                                        "id": "authService",
+                                        "name": "auth.service.ts"
+                                    },
+                                    {
+                                        "id": "userService",
+                                        "name": "user.service.ts"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "folder",
+                                "name": "userComponents",
+                                "subFolder": [
+                                    {
+                                        "type": "folder",
+                                        "name": "register",
+                                        "subFolder": [
+                                            {
+                                                "id": "registerCss",
+                                                "name": "register.component.css"
+                                            },
+                                            {
+                                                "id": "registerHtml",
+                                                "name": "register.component.html"
+                                            },
+                                            {
+                                                "id": "registerTS",
+                                                "name": "register.component.ts"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "appRouting",
+                                "name": "app-routing-module.ts"
+                            },
+                            {
+                                "id": "appCss",
+                                "name": "app.component.css"
+                            },
+                            {
+                                "id": "appHtml",
+                                "name": "app.component.html"
+                            },
+                            {
+                                "id": "appTS",
+                                "name": "app.component.ts"
+                            },
+                            {
+                                "id": "appModule",
+                                "name": "app.module.ts"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "index",
+                        "name": "index.ts"
+                    },
+                    {
+                        "id": "main",
+                        "name": "main.ts"
+                    }
+                ]
+            },
+            {
+                "id": "angular",
+                "name": "angular.json"
+            },
+            {
+                "id": "config",
+                "name": "config.js"
+            },
+            {
+                "id": "package",
+                "name": "package.json"
+            },
+            {
+                "id": "server",
+                "name": "server.js"
+            }
+        ]
+    }
+]

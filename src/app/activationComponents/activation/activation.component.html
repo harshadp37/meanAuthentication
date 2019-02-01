@@ -1,0 +1,48 @@
+<div class="container p-5">
+  <div>
+    <h2>Resend Activation Link</h2>
+    <p>
+      Please enter your email address and we will send you an email to verify account.
+    </p>
+
+    <form [formGroup]="activationForm" (ngSubmit)="sendActivationLink(activationForm.valid)">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <label class="col-form-label">Activate Account</label>
+        </div>
+
+        <div class="card-body">
+
+          <div class="form-group">
+            <label for="email"><strong>Email</strong></label>
+            <input class="form-control" formControlName="email" name="email" type="text" [ngClass]="{'is-valid': (activationForm.controls.email.valid && activationForm.controls.email.dirty), 'is-invalid': (!activationForm.controls.email.valid && activationForm.controls.email.dirty) || (!activationForm.controls.email.valid && activationForm.controls.email.touched) || (!activationForm.controls.email.valid && submitted)}">
+
+            <div [ngClass]="{'invalid-feedback': true}">
+              <span *ngIf="(activationForm.controls.email.errors?.required && activationForm.controls.email.dirty) || (activationForm.controls.email.errors?.required && activationForm.controls.email.touched) || (activationForm.controls.email.errors?.required && submitted)">Provide
+                Email ID.</span>
+              <span *ngIf="(activationForm.controls.email.errors?.pattern)">Invalid Email ID.</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card-footer">
+          <button class="btn btn-primary" type="submit" [disabled]="!activationForm.valid || loading">Send Activation
+            Link</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+  <br>
+
+  <div *ngIf="successMsg">
+    <h4><span class="badge badge-success"><span class="glyphicon glyphicon-ok"></span> {{ successMsg }}</span></h4>
+  </div>
+
+  <div *ngIf="errorMsg">
+    <h4><span class="badge badge-danger"><span class="glyphicon glyphicon-remove"></span> {{ errorMsg }}</span></h4>
+  </div>
+</div>

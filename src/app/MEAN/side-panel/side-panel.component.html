@@ -1,0 +1,69 @@
+<div class="side" *ngIf="finish">
+    <div class="images">
+    </div>
+
+    <div class="labl">
+        <button class="button">{{ routeTitle }}</button>
+    </div>
+    <span class="glyphicon glyphicon-chevron-left arrow"></span>
+    <div class="menu">
+
+        <ul class="list-group">
+
+            <li class="list-group-item" *ngFor="let mainFolder of mainFolder" [ngClass]="{'folder': mainFolder.type, 'file': !mainFolder.type}">
+                <span *ngIf="mainFolder.id" style="display: none;">{{ mainFolder.id }}</span>
+                <span *ngIf="mainFolder.type" [ngClass]="{'	glyphicon glyphicon-folder-open': mainFolder.type}"></span>
+                <a> {{ mainFolder.name }}</a>
+
+                <ul *ngIf="mainFolder.subFolder" class="list-group">
+                    <li class="list-group-item" *ngFor="let subFolder of mainFolder.subFolder" [ngClass]="{'folder': subFolder.type, 'file': !subFolder.type}">
+                        <span *ngIf="subFolder.id" style="display: none;">{{ subFolder.id }}</span>
+                        <span *ngIf="subFolder.type" [ngClass]="{'	glyphicon glyphicon-folder-open': subFolder.type}"></span>
+                        <a> {{ subFolder?.name }}</a>
+
+                        <ul *ngIf="subFolder.subFolder" class="list-group">
+                            <li class="list-group-item" *ngFor="let subFolder of subFolder.subFolder" [ngClass]="{'folder': subFolder.type, 'file': !subFolder.type}">
+                                <span *ngIf="subFolder.id" style="display: none;">{{ subFolder.id }}</span>
+                                <span *ngIf="subFolder.type" [ngClass]="{'	glyphicon glyphicon-folder-open': subFolder.type}"></span>
+                                <a> {{ subFolder?.name }}</a>
+
+                                <ul *ngIf="subFolder.subFolder" class="list-group">
+                                    <li class="list-group-item" *ngFor="let subFolder of subFolder.subFolder" [ngClass]="{'folder': subFolder.type, 'file': !subFolder.type}">
+                                        <span *ngIf="subFolder.id" style="display: none;">{{ subFolder.id }}</span>
+                                        <span *ngIf="subFolder.type" [ngClass]="{'	glyphicon glyphicon-folder-open': subFolder.type}"></span>
+                                        <a> {{ subFolder?.name }}</a>
+
+                                        <ul *ngIf="subFolder.subFolder" class="list-group">
+                                            <li class="list-group-item" *ngFor="let subFolder of subFolder.subFolder"
+                                                [ngClass]="{'folder': subFolder.type, 'file': !subFolder.type}">
+                                                <span *ngIf="subFolder.id" style="display: none;">{{ subFolder.id }}</span>
+                                                <span *ngIf="subFolder.type" [ngClass]="{'	glyphicon glyphicon-folder-open': subFolder.type}"></span>
+                                                <a> {{ subFolder?.name }}</a>
+
+                                                <ul *ngIf="subFolder.subFolder" class="list-group">
+                                                    <li class="list-group-item" *ngFor="let subFolder of subFolder.subFolder"
+                                                        [ngClass]="{'folder': subFolder.type, 'file': !subFolder.type}">
+                                                        <span *ngIf="subFolder.id" style="display: none;">{{ subFolder.id }}</span>
+                                                        <span *ngIf="subFolder.type" [ngClass]="{'	glyphicon glyphicon-folder-open': subFolder.type}"></span>
+                                                        <a> {{ subFolder?.name }}</a>
+                                                    </li>
+                                                </ul>
+
+                                            </li>
+                                        </ul>
+
+                                    </li>
+                                </ul>
+
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+    </div>
+</div>
