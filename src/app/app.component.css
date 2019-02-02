@@ -16,32 +16,18 @@ nav ul li a:hover{
     transition: 0.2s ease;
 }
 
-.notification-bell-sm{
-    display: none;
-}
-
-.notification-wrapper{
+.notification-wrapper, .notification-wrapper-sm{
     position: relative;
     margin: 2px 4px;
     display: block;
 }
 
-.notification-wrapper-sm{
-    position: relative;
-    margin: 2px 4px;
-    display: none;
-}
-
-.notification-bell{
+.notification-bell, .notification-bell-sm{
     position: relative;
     cursor: pointer;
     z-index: 2;
     margin-top: 50%;
     display: block;
-}
-
-.notification-bell-sm{
-    display: none;
 }
 
 .fa{
@@ -65,7 +51,7 @@ nav ul li a:hover{
     line-height: 15px;
 }
 
-.notification-container{
+.notification-container, .notification-container-sm{
     position: absolute;
     z-index: 1;
     left: -130px;
@@ -77,17 +63,16 @@ nav ul li a:hover{
 }
 
 .notification-container-sm{
-    position: absolute;
-    z-index: 1;
     left: -130px;
     top: 40px;
     min-height: 10px;
     min-width: 10px;
-    width: 280px;
+    width: 230px;
     display: none;
 }
 
-.notification-container .notification-header{
+.notification-container .notification-header,
+.notification-container-sm .notification-header{
     background: #4f5f6e;
     padding: 15px;
     position: relative;
@@ -98,17 +83,18 @@ nav ul li a:hover{
     border: 2px solid #273747;
 }
 
-.notification-container .notification-header .triangle{
+.notification-container .notification-header .triangle,
+.notification-container-sm .notification-header .triangle{
     position: absolute;
     top: -8px;
-    left: 134px;
+    left: 132px;
     height: 15px;
     width: 15px;
-    border-radius: 6px 0px 6px 0px;
     transform: rotate(45deg);
     background: white;
 }
-.notification-container .notification-header .count{
+.notification-container .notification-header .count,
+.notification-container-sm .notification-header .count{
     position: static;
     height: 25px;
     width: 25px;
@@ -119,7 +105,8 @@ nav ul li a:hover{
     vertical-align: middle;
 }
 
-.notification-container .notification-body{
+.notification-container .notification-body,
+.notification-container-sm .notification-body{
     max-height: 292px;
     background-color: #fdfdfd;
     overflow-y: auto;
@@ -127,13 +114,15 @@ nav ul li a:hover{
     border: 2px solid #4c565a;
 }
 
-.notification-container .notification-body .notification{
+.notification-container .notification-body .notification,
+.notification-container-sm .notification-body .notification{
     background: inherit;
     padding: 15px;
     border-bottom: 2px solid grey;
 }
 
-.notification-container .notification-body .notification .notification-text{
+.notification-container .notification-body .notification .notification-text,
+.notification-container-sm .notification-body .notification .notification-text{
     display: table-cell;
     vertical-align: middle;
     color: gray;
@@ -143,8 +132,21 @@ nav ul li a:hover{
     line-height: 21px;
 }
 
-.notification-container .notification-body .notification .notification-text .highlight{
+.notification-container .notification-body .notification .notification-text .highlight,
+.notification-container-sm .notification-body .notification .notification-text .highlight{
     font-weight: bold;
+}
+
+.notification-wrapper-sm{
+    display: none;
+}
+
+.notification-bell-sm{
+    display: none;
+}
+
+.notification-container-sm{
+    display: none;
 }
 
 @media(max-width:768px){
@@ -152,24 +154,19 @@ nav ul li a:hover{
         display: none;
     }
 
-    .notification-wrapper-sm{
-        display: block;
-    }
-
     .notification-bell{
         display: none;
-    }
-    
-    .notification-bell-sm{
-        margin-top: 0;
-        display: block;
     }
 
     .notification-container{
         display: none;
     }
+
+    .notification-wrapper-sm{
+        display: block;
+    }
     
-    .notification-container-sm{
-        display: none;
+    .notification-bell-sm{
+        display: block;
     }
 }

@@ -8,7 +8,7 @@ router.get('/:title', (req, res) => {
 
     Post.findOne({ title: req.params.title }, (err, doc) => {
         if (doc) {
-            doc.populate('comments', (err, doc) => {
+            doc.populate('comments', {}, null, {sort : {'createdAt' : -1}}, (err, doc) => {
                 if (doc) {
                     doc.populate('comments.replys', (err, doc) => {
                         if (doc) {

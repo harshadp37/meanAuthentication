@@ -12,22 +12,7 @@ declare var jQuery: any;
 export class AppComponent implements OnInit {
 
   title = 'Angular2Authentication';
-  newNotifications = [
-    {
-      user: {
-        name: 'Harshad'
-      },
-      action: 'replied On',
-      target: 'Your Comment'
-    },
-    {
-      user: {
-        name: 'Harsh'
-      },
-      action: 'replied On',
-      target: 'Your Comment'
-    }
-  ]
+  newNotifications = []
 
   constructor(private router: Router, public authService: AuthService) {
 
@@ -49,6 +34,27 @@ export class AppComponent implements OnInit {
     if (this.authService.isLoggedIn()) {
       this.authService.sessionCheck();
     }
+
+    setTimeout(()=>{
+      this.newNotifications.push({
+        user: {
+          name: 'Harsh'
+        },
+        action: 'replied On',
+        target: 'Your Comment'
+      })
+      setTimeout(()=>{
+        this.newNotifications.push({
+          user: {
+            name: 'Harsh'
+          },
+          action: 'replied On',
+          target: 'Your Comment'
+        })
+      }, 5000)
+    }, 10000)
+
+    this.bindJquery();
   }
 
   get loading() {
@@ -73,13 +79,21 @@ export class AppComponent implements OnInit {
   }
 
   showNotifications(e) {
-    $(e.target.parentElement.nextElementSibling).slideToggle('slow');
-    this.newNotifications.push({
-      user: {
-        name: 'harshadp37'
-      },
-      action: 'replied On',
-      target: 'Your Comment'
+    if($(e.target)[0].tagName == "DIV"){
+      $(e.target.nextElementSibling).slideToggle('slow');
+    }else{
+      $(e.target.parentElement.nextElementSibling).slideToggle('slow');
+    }
+  }
+
+  bindJquery(){
+    $(window).click(function(e){
+      if(<any>$(e.target).hasClass('notification-bell') || <any>$(e.target).hasClass('fa fa-bell') || <any>$(e.target).attr('id') === "notifications-count"){
+        e.preventDefault();
+      }else if($('#notification-dropdown').is(':visible') || $('#notification-dropdown-sm').is(':visible')){
+        $('#notification-dropdown').slideUp('slow');
+        $('#notification-dropdown-sm').slideUp('slow');
+      }
     })
   }
 }

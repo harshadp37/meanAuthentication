@@ -2,13 +2,13 @@
   <div class="container">
     <a class="navbar-brand" [routerLink]="[ '/' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Angular2+Authentication</a>
 
-    <div class="notification-wrapper notification-wrapper-sm" *ngIf="isLoggedIn">
-      <div class="notification-bell notification-bell-sm" (click)="showNotifications($event)">
-        <span class="count" id="notifications-count">{{newNotifications.length}}</span>
+    <div class="notification-wrapper-sm" *ngIf="isLoggedIn">
+      <div class="notification-bell-sm" (click)="showNotifications($event)">
+        <span class="count" id="notifications-count" *ngIf="newNotifications.length > 0">{{newNotifications.length}}</span>
         <span class="fa fa-bell"></span>
       </div>
 
-      <div class="notification-container notification-container-sm" id="notification-dropdown">
+      <div class="notification-container-sm" id="notification-dropdown-sm">
         <div class="notification-header">
           <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
           <span class="triangle"></span>
@@ -78,7 +78,7 @@
 
           <div class="notification-wrapper" *ngIf="isLoggedIn">
             <div class="notification-bell" (click)="showNotifications($event)">
-              <span class="count" id="notifications-count">{{newNotifications.length}}</span>
+              <span class="count" id="notifications-count" *ngIf="newNotifications.length > 0">{{newNotifications.length}}</span>
               <span class="fa fa-bell"></span>
             </div>
 
@@ -86,7 +86,7 @@
               <div class="notification-header">
                 <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
                 <span class="triangle"></span>
-                <span class="heading">Notifications</span>
+                <span class="heading">New Notifications</span>
               </div>
               <div class="notification-body">
                 <div class="notification" *ngFor="let notification of newNotifications">
