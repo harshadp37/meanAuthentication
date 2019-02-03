@@ -84,7 +84,11 @@ var userSchema = new mongoose.Schema({
         type : Boolean,
         required : true,
         default : false
-    }
+    },
+    notificationList : [{
+        type : mongoose.SchemaTypes.ObjectId,
+        ref : 'notifications'
+    }],
 }, { collection: "users" });
 
 userSchema.plugin(titlize, {
@@ -107,4 +111,4 @@ userSchema.methods.validPassword = function(password){
     return bcrypt.compareSync(password, this.password);
 }   
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("users", userSchema);

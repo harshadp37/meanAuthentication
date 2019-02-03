@@ -31,6 +31,7 @@ import { MeanLoginComponent } from './MEAN/mean-login/mean-login.component';
 import { IntroAndSetupComponent } from './MEAN/intro-and-setup/intro-and-setup.component';
 import { CommentsComponent } from './MEAN/comments/comments.component';
 import { CommentService } from './service/comment.service';
+import { NotificationService } from './service/notification.service';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { CommentService } from './service/comment.service';
     AuthService,
     MEANdataService,
     CommentService,
+    NotificationService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

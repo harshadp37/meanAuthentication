@@ -10,10 +10,10 @@ export class MEANdataService {
   constructor(private http: HttpClient) { }
 
   getRegistrationFile() : Observable<any>{
-    return this.http.get('/api/data/registrationData')
+    return this.http.get('/data/registrationData')
   }
 
   getLoginFile() : Observable<any>{
-    return this.http.get('/api/data/loginData')
+    return this.http.get('/data/loginData')
   }
 }

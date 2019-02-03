@@ -3,12 +3,19 @@ var router = express.Router();
 var Post = require('../models/posts').Post;
 var Comment = require('../models/posts').Comment;
 var Reply = require('../models/posts').Reply;
+var Notification = require('../models/notifications').Notification;
+var User = require("../models/user");
+
+var jwt = require('jsonwebtoken');
+var config = require('../../config');
+
+var Fawn = require("fawn");
 
 router.get('/:title', (req, res) => {
 
     Post.findOne({ title: req.params.title }, (err, doc) => {
         if (doc) {
-            doc.populate('comments', {}, null, {sort : {'createdAt' : -1}}, (err, doc) => {
+            doc.populate('comments', {}, null, { sort: { 'createdAt': -1 } }, (err, doc) => {
                 if (doc) {
                     doc.populate('comments.replys', (err, doc) => {
                         if (doc) {
@@ -27,10 +34,30 @@ router.get('/:title', (req, res) => {
     })
 })
 
+router.use((req, res, next) => {
+    let token = req.headers['x-access-token'] || req.headers.token;
+
+    if (token) {
+        jwt.verify(token, config.secret, (err, decoded) => {
+            if (err) {
+                req.decoded = null;
+                next();
+            } else {
+                req.decoded = decoded;
+                next();
+            }
+        })
+    } else {
+        req.decoded = null;
+        next();
+    }
+})
+
 router.post('/saveComment/:title', (req, res) => {
-    if (req.body.username && req.body.commentBody) {
+    if (req.decoded && req.body.commentBody) {
         var newComment = new Comment({
-            createdBy: req.body.username,
+            post: req.params.title,
+            createdBy: req.decoded.username,
             body: req.body.commentBody,
             createdAt: Date.now()
         })
@@ -78,13 +105,13 @@ router.post('/saveComment/:title', (req, res) => {
 })
 
 router.post('/saveEditedComment/:commentID', (req, res) => {
-    if (req.body.editBody) {
-        Comment.findOne({_id : req.params.commentID}, (err, comment)=>{
-            if(err){
+    if (req.decoded && req.body.editBody) {
+        Comment.findOne({ _id: req.params.commentID }, (err, comment) => {
+            if (err) {
                 res.json({ success: false, message: err });
-            }else if(comment){
+            } else if (comment) {
                 comment.body = req.body.editBody;
-                comment.save((err)=>{
+                comment.save((err) => {
                     if (err) {
                         res.json({ success: false, message: err });
                     } else {
@@ -99,12 +126,9 @@ router.post('/saveEditedComment/:commentID', (req, res) => {
 })
 
 router.post('/saveReply/:commentID', (req, res) => {
-    if (req.body.username && req.body.replyBody) {
-        var newReply = new Reply({
-            repliedBy: req.body.username,
-            body: req.body.replyBody,
-            createdAt: Date.now()
-        })
+    if (req.decoded && req.body.replyBody) {
+
+        var task = Fawn.Task();
 
         Comment.findOne({ _id: req.params.commentID }, (err, doc) => {
             if (err) {
@@ -112,18 +136,39 @@ router.post('/saveReply/:commentID', (req, res) => {
             } else if (!doc) {
                 res.json({ success: false, message: 'Reply not Saved...Something went Wrong.' })
             } else {
-                newReply.save((err) => {
+                User.findOne({ username: doc.createdBy }, { notificationList: 1 }, (err, user) => {
                     if (err) {
                         res.json({ success: false, message: err });
+                    } else if (!user) {
+                        res.json({ success: false, message: "Reply not Saved...Something went Wrong." });
                     } else {
-                        doc.replys.push(newReply);
-                        doc.save((err) => {
-                            if (err) {
-                                res.json({ success: false, message: err });
-                            } else {
-                                res.json({ success: true, message: 'Reply Saved!!' })
-                            }
+                        var newReply = new Reply({
+                            repliedBy: req.decoded.username,
+                            body: req.body.replyBody,
+                            createdAt: Date.now()
                         })
+
+                        task.save(newReply)
+                        task.update(doc, { $push: { replys: newReply } })
+                        var newNotification = Notification({
+                            user: doc.createdBy,
+                            body: req.decoded.username + " replied on your comment",
+                            target: {
+                                post: doc.post,
+                                commentID: doc,
+                                replyID: newReply
+                            },
+                            notificationDate : Date.now()
+                        })
+                        task.save(newNotification);
+                        task.update(user, { $push: { notificationList: newNotification } })
+                        task.run({ useMongoose: true })
+                            .then((results) => {
+                                res.json({ success: true, message: "Reply Saved!!" })
+                            })
+                            .catch((err) => {
+                                res.json({ success: false, message: err })
+                            })
                     }
                 })
             }

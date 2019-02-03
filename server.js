@@ -3,9 +3,14 @@ var bodyParser = require("body-parser");
 var path = require("path");
 var morgan = require("morgan");
 var mongoose = require("mongoose");
+var Fawn = require("fawn");
 var config = require("./config");
 
+var MEANdata = require("./server/route/MEANdata");
+var commentRoute = require("./server/route/commentRoute");
+var notificationRoute = require("./server/route/notificationRoute");
 var userRoute = require("./server/route/userRoute");
+
 var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io")(server);
@@ -20,11 +25,16 @@ mongoose.connect(config.url, (err, db)=>{
     }
 });
 
+Fawn.init(mongoose);
+
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.static(path.join(__dirname, "dist/Angular2Authentication")));  
 
+app.use("/data", MEANdata);
+app.use("/posts", commentRoute);
+app.use('/notification', notificationRoute);
 app.use("/api", userRoute);
 
 app.use('*', (req, res)=> {

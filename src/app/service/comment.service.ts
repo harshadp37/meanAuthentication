@@ -30,18 +30,18 @@ export class CommentService {
 
 
   getAllComment(title) : Observable<any>{
-    return this.http.get('/api/posts/' + title);
+    return this.http.get('/posts/' + title);
   }
 
   saveComment(title, comment) : Observable<any>{
-    return this.http.post('/api/posts/saveComment/' + title, comment);
+    return this.http.post('/posts/saveComment/' + title, comment);
   }
 
   saveEditedComment(commentID, editBody) : Observable<any>{
-    return this.http.post('/api/posts/saveEditedComment/' + commentID, editBody);
+    return this.http.post('/posts/saveEditedComment/' + commentID, editBody);
   }
 
   saveReply(commentID, reply) : Observable<any>{
-    return this.http.post('/api/posts/saveReply/' + commentID, reply);
+    return this.http.post('/posts/saveReply/' + commentID, reply);
   }
 }

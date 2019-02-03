@@ -2,15 +2,16 @@ var mongoose = require('mongoose');
 
 var postSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    comments: [{type : mongoose.SchemaTypes.ObjectId, ref:'comment'}],
+    comments: [{type : mongoose.SchemaTypes.ObjectId, ref:'comments'}],
     updatedAt: { type: Date, required: true }
 }, { collection: 'posts' });
 
 var commentSchema = new mongoose.Schema({
+    post : {type: String, required: true},
     createdBy: { type: String, required: true },
     body: { type: String, required: true },
     createdAt: { type: Date, required: true },
-    replys:[{type: mongoose.SchemaTypes.ObjectId, ref:'reply'}]
+    replys:[{type: mongoose.SchemaTypes.ObjectId, ref:'replys'}]
 }, {collection: 'comments'});
 
 var replySchema = new mongoose.Schema({
@@ -20,7 +21,7 @@ var replySchema = new mongoose.Schema({
 }, {collection: 'replys'});
 
 module.exports = {
-    "Post": mongoose.model('post', postSchema),
-    "Comment": mongoose.model('comment', commentSchema),
-    "Reply": mongoose.model('reply', replySchema)
+    "Post": mongoose.model('posts', postSchema),
+    "Comment": mongoose.model('comments', commentSchema),
+    "Reply": mongoose.model('replys', replySchema)
 }

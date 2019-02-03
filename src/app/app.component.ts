@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationCancel } from '@angular/router';
 import { AuthService } from './service/auth.service';
 import * as $ from 'jquery';
+import { NotificationService } from './service/notification.service';
 
 declare var jQuery: any;
 @Component({
@@ -12,9 +13,10 @@ declare var jQuery: any;
 export class AppComponent implements OnInit {
 
   title = 'Angular2Authentication';
-  newNotifications = []
+  newNotifications = [];
+  seenNotifications = [];
 
-  constructor(private router: Router, public authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {
 
     router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
@@ -33,26 +35,14 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
       this.authService.sessionCheck();
-    }
-
-    setTimeout(()=>{
-      this.newNotifications.push({
-        user: {
-          name: 'Harsh'
-        },
-        action: 'replied On',
-        target: 'Your Comment'
+      this.notificationService.getAllNotification().subscribe((res)=>{
+        if(res.success){
+          this.newNotifications = res.notifications;
+        }else{
+          console.log(res.message)
+        }
       })
-      setTimeout(()=>{
-        this.newNotifications.push({
-          user: {
-            name: 'Harsh'
-          },
-          action: 'replied On',
-          target: 'Your Comment'
-        })
-      }, 5000)
-    }, 10000)
+    }
 
     this.bindJquery();
   }

@@ -7,8 +7,6 @@ var nodemailer = require('nodemailer');
 var config = require('../../config');
 var User = require("../models/user");
 
-var MEANdata = require("./MEANdata");
-var commentRoute = require("./commentRoute");
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -305,9 +303,6 @@ router.put('/resetPassword', (req, res) => {
         res.json({ success: false, message: "Please provide Password." })
     }
 });
-
-router.use("/data", MEANdata);
-router.use("/posts/", commentRoute);
 
 router.use((req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers.token;

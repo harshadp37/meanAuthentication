@@ -76,7 +76,6 @@ export class CommentsComponent implements OnInit {
     this.submitted = true;
     if (this.commentForm.valid) {
       let comment = {
-        'username': this.username,
         'commentBody': this.commentForm.get('commentBody').value
       }
 
@@ -97,7 +96,6 @@ export class CommentsComponent implements OnInit {
     this.replySubmitted = true;
     if (this.replyForm.valid) {
       let reply = {
-        'username': this.username,
         'replyBody': this.replyForm.get('replyBody').value
       }
 

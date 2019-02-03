@@ -17,8 +17,7 @@
         <div class="notification-body">
           <div class="notification" *ngFor="let notification of newNotifications">
             <div class="notification-text">
-              <span class="highlight">{{notification.user.name}}</span> {{notification.action}}
-              {{notification.target}}
+              <span class="highlight">{{notification.body}}</span>
             </div>
           </div>
         </div>
@@ -91,8 +90,7 @@
               <div class="notification-body">
                 <div class="notification" *ngFor="let notification of newNotifications">
                   <div class="notification-text">
-                    <span class="highlight">{{notification.user.name}}</span> {{notification.action}}
-                    {{notification.target}}
+                    <span>{{notification.body}}</span>
                   </div>
                 </div>
               </div>

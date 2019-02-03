@@ -59,6 +59,7 @@ nav ul li a:hover{
     min-height: 10px;
     min-width: 10px;
     width: 280px;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
     display: none;
 }
 
@@ -91,7 +92,7 @@ nav ul li a:hover{
     height: 15px;
     width: 15px;
     transform: rotate(45deg);
-    background: white;
+    background: #4f5f6e;
 }
 .notification-container .notification-header .count,
 .notification-container-sm .notification-header .count{
@@ -128,6 +129,7 @@ nav ul li a:hover{
     color: gray;
     cursor: pointer;
     font-size: 14px;
+    font-weight: bold;
     word-spacing: 2px;
     line-height: 21px;
 }
