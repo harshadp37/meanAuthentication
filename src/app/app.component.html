@@ -4,20 +4,26 @@
 
     <div class="notification-wrapper-sm" *ngIf="isLoggedIn">
       <div class="notification-bell-sm" (click)="showNotifications($event)">
-        <span class="count" id="notifications-count" *ngIf="newNotifications.length > 0">{{newNotifications.length}}</span>
+        <span class="count" id="notifications-count" *ngIf="notificationCount > 0">{{notificationCount}}</span>
         <span class="fa fa-bell"></span>
       </div>
 
       <div class="notification-container-sm" id="notification-dropdown-sm">
         <div class="notification-header">
-          <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
+          <span class="count" id="dd-notifications-count">{{notificationCount}}</span>
           <span class="triangle"></span>
-          <span class="heading">Notifications</span>
+          <span class="heading">Unread Notifications</span>
         </div>
         <div class="notification-body">
-          <div class="notification" *ngFor="let notification of newNotifications">
-            <div class="notification-text">
-              <span class="highlight">{{notification.body}}</span>
+          <div *ngFor="let notification of newNotifications; index as i">
+            <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}" (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
+              <div class="notification-text">
+                <span class="highlight">{{notification.from}}</span> {{notification.body}}
+              </div>
+              <div class="notification-date">
+                <span class="highlight fa fa-clock-o" style="color: black;"></span>
+                <abbr style="text-decoration: none; cursor: pointer;" title="{{notification.notificationDate | date:'medium'}}"> {{notification.notificationDate | notificationDateFormat}}</abbr>
+              </div>
             </div>
           </div>
         </div>
@@ -77,20 +83,26 @@
 
           <div class="notification-wrapper" *ngIf="isLoggedIn">
             <div class="notification-bell" (click)="showNotifications($event)">
-              <span class="count" id="notifications-count" *ngIf="newNotifications.length > 0">{{newNotifications.length}}</span>
+              <span class="count" id="notifications-count" *ngIf="notificationCount > 0">{{notificationCount}}</span>
               <span class="fa fa-bell"></span>
             </div>
 
             <div class="notification-container" id="notification-dropdown">
               <div class="notification-header">
-                <span class="count" id="dd-notifications-count">{{newNotifications.length}}</span>
+                <span class="count" id="dd-notifications-count">{{notificationCount}}</span>
                 <span class="triangle"></span>
-                <span class="heading">New Notifications</span>
+                <span class="heading">Unread Notifications</span>
               </div>
               <div class="notification-body">
-                <div class="notification" *ngFor="let notification of newNotifications">
-                  <div class="notification-text">
-                    <span>{{notification.body}}</span>
+                <div *ngFor="let notification of newNotifications; index as i">
+                  <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}" (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
+                    <div class="notification-text">
+                      <span class="highlight">{{notification.from}}</span> {{notification.body}}
+                    </div>
+                    <div class="notification-date">
+                      <span class="highlight fa fa-clock-o" style="color: black;"></span>
+                      <abbr style="text-decoration: none; cursor: pointer;" title="{{notification.notificationDate | date:'medium'}}"> {{notification.notificationDate | notificationDateFormat}}</abbr>
+                    </div>
                   </div>
                 </div>
               </div>

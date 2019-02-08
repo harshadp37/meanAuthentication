@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationCancel } from '@angular/router';
 import { AuthService } from './service/auth.service';
-import * as $ from 'jquery';
 import { NotificationService } from './service/notification.service';
+//import * as $ from 'jquery';
 
-declare var jQuery: any;
+declare var $: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
 
-  title = 'Angular2Authentication';
+  $: any;
   newNotifications = [];
-  seenNotifications = [];
+  notificationCount: number = 0;
 
   constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {
 
@@ -35,16 +35,54 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
       this.authService.sessionCheck();
-      this.notificationService.getAllNotification().subscribe((res)=>{
-        if(res.success){
+      this.notificationService.getAllNotification().subscribe((res) => {
+        if (res.success) {
           this.newNotifications = res.notifications;
-        }else{
+          for (let i = 0; i < this.newNotifications.length; i++) {
+            if (!this.newNotifications[i].seen) {
+              this.notificationCount++;
+            }
+          }
+          $('#pageTitle').text(this.pageTitle());
+        } else {
           console.log(res.message)
         }
       })
     }
 
     this.bindJquery();
+  }
+
+  pageTitle() {
+    let title = this.notificationCount ? '(' + this.notificationCount + ') Angular2Authentication' : 'Angular2Authentication';
+    return title;
+  }
+
+  notificationClick(notificationID, notificationSeen, target, index) {
+    this.router.navigateByUrl('/MEAN/intro&setup')
+    let checkCommentList = setInterval(() => {
+      $('body').css('cursor', 'wait')
+      if ($('.commentsList').is(':visible')) {
+        $('#' + target.commentID).find('.replyAnchor span').removeClass('glyphicon-triangle-bottom')
+        $('#' + target.commentID).find('.replyAnchor span').addClass('glyphicon-triangle-top')
+        
+        $('#' + target.commentID).find('.replysList').show();
+        $('#' + target.replyID)[0].scrollIntoView();
+        $(window)[0].scrollBy({top: -200});
+        $( '#' + target.replyID ).animate({backgroundColor: "yellow"}, 500).animate({backgroundColor: "#20b2aa"}, 500);
+        $('body').css('cursor', 'default')
+        clearInterval(checkCommentList);
+      }
+    }, 1000)
+    if(!notificationSeen){
+      this.notificationService.updateNotificationSeen(notificationID, notificationSeen).subscribe((res)=>{
+        if(res.success){
+          this.newNotifications[index].seen = true;
+          this.notificationCount--;
+          $('#pageTitle').text(this.pageTitle());
+        }
+      })
+    }
   }
 
   get loading() {
@@ -63,24 +101,24 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.authService.setToken();
       this.authService.setUserData();
-      jQuery('#loggingOutModal').modal('hide');
+      $('#loggingOutModal').modal('hide');
       this.router.navigate(['/login']);
     }, 2000);
   }
 
   showNotifications(e) {
-    if($(e.target)[0].tagName == "DIV"){
+    if ($(e.target)[0].tagName == "DIV") {
       $(e.target.nextElementSibling).slideToggle('slow');
-    }else{
+    } else {
       $(e.target.parentElement.nextElementSibling).slideToggle('slow');
     }
   }
 
-  bindJquery(){
-    $(window).click(function(e){
-      if(<any>$(e.target).hasClass('notification-bell') || <any>$(e.target).hasClass('fa fa-bell') || <any>$(e.target).attr('id') === "notifications-count"){
-        e.preventDefault();
-      }else if($('#notification-dropdown').is(':visible') || $('#notification-dropdown-sm').is(':visible')){
+  bindJquery() {
+    $(window).click(function (e) {
+      if (<any>$(e.target).hasClass('notification-bell') || <any>$(e.target).hasClass('notification-bell-sm') || <any>$(e.target).hasClass('fa fa-bell') || <any>$(e.target).attr('id') === "notifications-count") {
+
+      } else if ($('#notification-dropdown').is(':visible') || $('#notification-dropdown-sm').is(':visible')) {
         $('#notification-dropdown').slideUp('slow');
         $('#notification-dropdown-sm').slideUp('slow');
       }

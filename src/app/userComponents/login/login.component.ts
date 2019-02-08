@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,11 @@ export class LoginComponent implements OnInit {
 
   activationLink: boolean;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private authService: AuthService) { }
+  constructor(private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router,
+    private authService: AuthService,
+    private app : AppComponent) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -61,7 +66,7 @@ export class LoginComponent implements OnInit {
           setTimeout(() => {
             this.authService.load = true;
             this.authService.setToken(res.token);
-            this.authService.sessionCheck();
+            this.app.ngOnInit();
             this.router.navigate(['/profile']);
           }, 2000)
         } else {

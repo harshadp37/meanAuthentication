@@ -12,4 +12,8 @@ export class NotificationService {
   getAllNotification() : Observable<any>{
     return this.http.get('/notification/all');
   }
+
+  updateNotificationSeen(notificationID, notificationSeen) : Observable<any>{
+    return this.http.put('/notification/updateSeen/' + notificationID, {notificationSeen: notificationSeen});
+  }
 }

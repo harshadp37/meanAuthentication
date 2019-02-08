@@ -10,13 +10,13 @@ import { AuthService } from './auth.service';
 
 export class CommentService {
 
-  socket = io();
+  //socket = io();
 
   constructor(private http : HttpClient, private authService : AuthService) {
-    this.ap();
+    //this.ap();
   }
 
-  ap(){
+  /* ap(){
     this.socket.on('onConnected', (id)=>{
       console.log('connected : ' + id);
       this.socket.emit('join', {username : this.authService.user.username})
@@ -26,7 +26,7 @@ export class CommentService {
     this.socket.on('newMsg', (data)=>{
       console.log(data.Msg);
     })
-  }
+  } */
 
 
   getAllComment(title) : Observable<any>{
@@ -38,10 +38,14 @@ export class CommentService {
   }
 
   saveEditedComment(commentID, editBody) : Observable<any>{
-    return this.http.post('/posts/saveEditedComment/' + commentID, editBody);
+    return this.http.put('/posts/updateComment/' + commentID, editBody);
   }
 
   saveReply(commentID, reply) : Observable<any>{
     return this.http.post('/posts/saveReply/' + commentID, reply);
+  }
+
+  saveEditedReply(replyID, editReplyBody) : Observable<any>{
+    return this.http.put('/posts/updateReply/' + replyID, editReplyBody);
   }
 }

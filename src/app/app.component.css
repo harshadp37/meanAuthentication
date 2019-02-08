@@ -118,24 +118,43 @@ nav ul li a:hover{
 .notification-container .notification-body .notification,
 .notification-container-sm .notification-body .notification{
     background: inherit;
-    padding: 15px;
+    padding: 10px;
     border-bottom: 2px solid grey;
+}
+
+.notification-container .notification-body .seen,
+.notification-container-sm .notification-body .seen{
+    background: inherit;
+}
+
+.notification-container .notification-body .unseen,
+.notification-container-sm .notification-body .unseen{
+    background: rgb(207, 202, 202);
 }
 
 .notification-container .notification-body .notification .notification-text,
 .notification-container-sm .notification-body .notification .notification-text{
     display: table-cell;
     vertical-align: middle;
-    color: gray;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 15px;
     word-spacing: 2px;
     line-height: 21px;
 }
 
 .notification-container .notification-body .notification .notification-text .highlight,
 .notification-container-sm .notification-body .notification .notification-text .highlight{
+    font-weight: bold;
+}
+
+.notification-container .notification-body .notification .notification-date,
+.notification-container-sm .notification-body .notification .notification-date{
+    font-size: 12px;
+}
+
+.notification-container .notification-body .notification .notification-date .highlight,
+.notification-container-sm .notification-body .notification .notification-date .highlight{
+    font-size: 11px;
     font-weight: bold;
 }
 

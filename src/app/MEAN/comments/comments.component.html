@@ -36,7 +36,7 @@
     <br>
 
     <ul>
-      <li *ngFor="let comment of comments">
+      <li *ngFor="let comment of comments"  id="{{comment._id}}">
 
         <div class="commentHeader">
           <p>posted by <span class="postedBy"> {{ comment.createdBy }} </span> On <span class="postedAt">{{
@@ -72,7 +72,7 @@
 
           <div class="replysList">
             <ul>
-              <li *ngFor="let reply of comment.replys">
+              <li *ngFor="let reply of comment.replys" id="{{reply._id}}">
 
                 <div class="replyHeader">
                   <p>replied by <span class="repliedBy"> {{ reply.repliedBy }} </span> On <span class="repliedAt">{{
@@ -81,9 +81,17 @@
 
                 <div class="replyBody">
                   <p>{{ reply.body }}</p>
+                  <div class="edit-reply-form" *ngIf="reply.repliedBy === username">
+                    <form [formGroup]='editReplyForm' (ngSubmit)='saveReplyEdit(reply._id)'>
+                      <textarea rows="2" cols="20" class="form-control" formControlName='editReplyBody'
+                        [ngClass]="{'is-valid': (editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty), 'is-invalid' : (!editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty) || (!editReplyForm.controls.editReplyBody.valid && editReplySubmitted)}" (input)="checkReplyMatch($event)"></textarea>
+                      <button type="submit" class="btn btn-sm btn-primary" [disabled]="!editReplyForm.valid || editReplyMatch">Save</button>
+                    </form>
+                  </div>
                 </div>
 
                 <div class="replyFooter">
+                    <button type="button" class="btn btn-sm editReplybtn" *ngIf="reply.repliedBy === username">Edit</button>
                 </div><br>
 
               </li>

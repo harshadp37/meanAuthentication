@@ -17,13 +17,16 @@ export class CommentsComponent implements OnInit {
   commentForm: FormGroup;
   replyForm: FormGroup;
   editForm: FormGroup;
+  editReplyForm: FormGroup;
 
   editMatch: boolean;
+  editReplyMatch: boolean;
 
   errorMsg: String;
   submitted: boolean = false;
   replySubmitted: boolean = false;
   editSubmitted: boolean = false;
+  editReplySubmitted: boolean = false;
 
   loadingComments: boolean = true;
   constructor(private commentService: CommentService, private authService: AuthService, private fb: FormBuilder) { }
@@ -32,8 +35,8 @@ export class CommentsComponent implements OnInit {
     this.commentFormInit();
     this.replyFormInit();
     this.editFormInit();
+    this.editReplyFormInit();
     this.loadingComments = true;
-
     setTimeout(() => {
       this.commentService.getAllComment(this.title).subscribe(res => {
         if (res.success) {
@@ -46,7 +49,7 @@ export class CommentsComponent implements OnInit {
           this.bindJquery();
         }
       })
-    }, 2000)
+    }, 1000)
 
   }
 
@@ -72,6 +75,12 @@ export class CommentsComponent implements OnInit {
     })
   }
 
+  editReplyFormInit() {
+    this.editReplyForm = this.fb.group({
+      editReplyBody: ['', Validators.required]
+    })
+  }
+
   saveComment() {
     this.submitted = true;
     if (this.commentForm.valid) {
@@ -80,7 +89,6 @@ export class CommentsComponent implements OnInit {
       }
 
       this.commentService.saveComment(this.title, comment).subscribe((res) => {
-        console.log(res);
         if (res.success) {
           this.commentForm.reset();
           this.submitted = false;
@@ -111,9 +119,9 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  saveEdit(commentID){
+  saveEdit(commentID) {
     this.editSubmitted = true;
-    if (this.editForm.valid) {
+    if (this.editForm.valid && !this.editMatch) {
       let editBody = {
         'editBody': this.editForm.get('editBody').value
       }
@@ -130,16 +138,43 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  checkMatch(e){
+  saveReplyEdit(replyID){
+    console.log(replyID)
+    this.editReplySubmitted = true;
+    if (this.editReplyForm.valid && !this.editReplyMatch) {
+      let editReplyBody = {
+        'editReplyBody': this.editReplyForm.get('editReplyBody').value
+      }
+
+      this.commentService.saveEditedReply(replyID, editReplyBody).subscribe((res) => {
+        if (res.success) {
+          this.editReplyForm.reset();
+          this.editReplySubmitted = false;
+          this.ngOnInit();
+        } else {
+          this.editReplySubmitted = true;
+        }
+      })
+    }
+  }
+
+  checkMatch(e) {
     this.editMatch = false;
-    if(e.target.value === e.target.parentElement.parentElement.parentElement.children[0].textContent){
+    if (e.target.value === e.target.parentElement.parentElement.parentElement.children[0].textContent) {
       this.editMatch = true;
     }
   }
 
-  calTotalComments(){
+  checkReplyMatch(e) {
+    this.editReplyMatch = false;
+    if (e.target.value === e.target.parentElement.parentElement.parentElement.children[0].textContent) {
+      this.editReplyMatch = true;
+    }
+  }
+
+  calTotalComments() {
     let totalComment = this.comments.length;
-    for(let i=0; i < this.comments.length; i++){
+    for (let i = 0; i < this.comments.length; i++) {
       totalComment = totalComment + (this.comments[i].replys ? this.comments[i].replys.length : 0);
     }
     return totalComment;
@@ -182,6 +217,22 @@ export class CommentsComponent implements OnInit {
       $('.commentDiv .commentsList .commentFooter .editbtn').bind('click', function (e) {
         _this.editForm.reset();
         $('.commentDiv .commentsList .commentBody .edit-form').each(function () {
+          if ($(this)[0] === $(e.target.parentElement.parentElement.children[1].children[1])[0]) {
+
+            e.target.parentElement.parentElement.children[1].children[1].children[0][0].value = e.target.parentElement.parentElement.children[1].children[0].textContent;
+            $(e.target.parentElement.parentElement.children[1].children[0]).toggle('slow')
+            $(e.target.parentElement.parentElement.children[1].children[1]).toggle('slow')
+
+          } else if ($(this).is(':visible') || $(this.parentElement.children[0]).not(':visible')) {
+            $(this).hide();
+            $(this.parentElement.children[0]).show();
+          }
+        })
+      })
+
+      $('.commentDiv .commentsList .commentFooter .replysList .replyFooter .editReplybtn').bind('click', function (e) {
+        _this.editReplyForm.reset();
+        $('.commentDiv .commentsList .commentFooter .replysList .replyBody .edit-reply-form').each(function () {
           if ($(this)[0] === $(e.target.parentElement.parentElement.children[1].children[1])[0]) {
 
             e.target.parentElement.parentElement.children[1].children[1].children[0][0].value = e.target.parentElement.parentElement.children[1].children[0].textContent;

@@ -41,7 +41,7 @@ app.use('*', (req, res)=> {
     res.sendFile(path.join(__dirname, "dist/Angular2Authentication/index.html"));
 });
 
-io.sockets.on('connection', (socket) => {
+/* io.sockets.on('connection', (socket) => {
     console.log('connected : ' + Object.keys(socket));
     socket.emit('onConnected', socket.id);
 
@@ -53,7 +53,7 @@ io.sockets.on('connection', (socket) => {
        console.log(Object.keys(io.sockets.adapter.rooms))
         io.in(data.to).emit('newMsg', {from : data.from, Msg : data.Msg})
     })
-})
+}) */
 
 server.listen(port, ()=> {
     console.log('App Listenting On Port ' + port);

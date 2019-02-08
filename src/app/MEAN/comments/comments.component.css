@@ -122,7 +122,7 @@
 }
 
 .commentDiv .commentsList .commentFooter .replysList ul li{
-    background-color: lightseagreen;
+    background-color: #20b2aa;
     padding-left: 5px;
     border-top: 2px solid gray;
     border-bottom: 2px solid gray;
@@ -150,6 +150,12 @@
     font-size: 15px;
     font-weight: bold;
     word-break: break-all;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyBody .edit-reply-form{
+    margin-top: 5px;
+    width: 80%;
+    display: none;
 }
 
 .commentDiv .commentsList .commentFooter .replysList .replyFooter{
@@ -264,6 +270,10 @@
         margin-left: 8px;
         font-size: 13px;
         font-weight: bold;
+    }
+
+    .commentDiv .commentsList .commentFooter .replysList .replyBody .edit-reply-form{
+        width: 95%;
     }
     
     .commentDiv .commentsList .commentFooter .replysList .replyFooter{

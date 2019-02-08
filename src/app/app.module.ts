@@ -32,6 +32,7 @@ import { IntroAndSetupComponent } from './MEAN/intro-and-setup/intro-and-setup.c
 import { CommentsComponent } from './MEAN/comments/comments.component';
 import { CommentService } from './service/comment.service';
 import { NotificationService } from './service/notification.service';
+import { NotificationDateFormatPipe } from './notification-date-format.pipe';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { NotificationService } from './service/notification.service';
     MeanLoginComponent,
     IntroAndSetupComponent,
     CommentsComponent,
+    NotificationDateFormatPipe,
   ],
   imports: [
     BrowserModule,
