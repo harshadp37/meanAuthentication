@@ -6,7 +6,8 @@
   <div class="header">
     <p class="loggedIn" *ngIf="username"><span class="glyphicon glyphicon-user" style="color: rgb(47, 98, 209);"></span>
       Logged In as : <span style="font-weight: bold;color: lightseagreen;">{{ username }}</span></p>
-    <p class="commentTitle" *ngIf="username"><span class="glyphicon glyphicon-comment" style="color: rgb(8, 114, 22);"></span>
+    <p class="commentTitle" *ngIf="username"><span class="glyphicon glyphicon-comment"
+        style="color: rgb(8, 114, 22);"></span>
       Post a Comment</p>
     <p class="commentTitle" *ngIf="!username">Please Log in to Post a Comment
       <button [routerLink]="['/login']" type="button" class="btn btn-sm btn-primary" data-dismiss="modal">
@@ -22,7 +23,7 @@
   <div class="comment-form" *ngIf="username">
     <form [formGroup]='commentForm' (ngSubmit)='saveComment()'>
       <textarea rows="3" cols="20" class="form-control" formControlName='commentBody' placeholder="Write a Comment..."
-        [ngClass]="{'is-valid': (commentForm.controls.commentBody.valid && commentForm.controls.commentBody.dirty), 'is-invalid' : (!commentForm.controls.commentBody.valid && commentForm.controls.commentBody.dirty) || (!commentForm.controls.commentBody.valid && submitted)}"></textarea>
+        [ngClass]="{'is-valid': (commentForm.controls.commentBody.valid && commentForm.controls.commentBody.dirty), 'is-invalid' : (!commentForm.controls.commentBody.valid && commentForm.controls.commentBody.dirty)}"></textarea>
       <button type="submit" class="btn btn-primary" [disabled]="!commentForm.valid">Post a Comment</button>
     </form>
   </div>
@@ -36,38 +37,47 @@
     <br>
 
     <ul>
-      <li *ngFor="let comment of comments"  id="{{comment._id}}">
+      <li *ngFor="let comment of comments" id="{{comment._id}}">
 
-        <div class="commentHeader">
+        <div class="deletedComment" *ngIf="comment.deletedComment">
+          <p>This comment was deleted.</p>
+        </div>
+
+        <div class="commentHeader" *ngIf="!comment.deletedComment">
+          <span class="fa fa-trash-o deletebtn" *ngIf="comment.createdBy === username" (click)="deleteComment(comment._id)"></span>
           <p>posted by <span class="postedBy"> {{ comment.createdBy }} </span> On <span class="postedAt">{{
               comment.createdAt | date:'medium' }}</span></p>
         </div>
 
-        <div class="commentBody">
+        <div class="commentBody" *ngIf="!comment.deletedComment">
           <p>{{ comment.body }}</p>
           <div class="edit-form" *ngIf="comment.createdBy === username">
             <form [formGroup]='editForm' (ngSubmit)='saveEdit(comment._id)'>
               <textarea rows="2" cols="20" class="form-control" formControlName='editBody'
-                [ngClass]="{'is-valid': (editForm.controls.editBody.valid && editForm.controls.editBody.dirty), 'is-invalid' : (!editForm.controls.editBody.valid && editForm.controls.editBody.dirty) || (!editForm.controls.editBody.valid && editSubmitted)}" (input)="checkMatch($event)"></textarea>
-              <button type="submit" class="btn btn-sm btn-primary" [disabled]="!editForm.valid || editMatch">Save</button>
+                [ngClass]="{'is-valid': (editForm.controls.editBody.valid && editForm.controls.editBody.dirty), 'is-invalid' : (!editForm.controls.editBody.valid && editForm.controls.editBody.dirty)}"
+                (input)="checkMatch($event)"></textarea>
+              <button type="submit" class="btn btn-sm btn-primary"
+                [disabled]="!editForm.valid || editMatch">Save</button>
             </form>
           </div>
         </div>
 
         <div class="commentFooter">
 
-          <button type="button" class="btn btn-sm btn-success replybtn" *ngIf="username">Reply</button>
-          <button type="button" class="btn btn-sm editbtn" *ngIf="comment.createdBy === username">Edit</button>
+          <button type="button" class="btn btn-sm btn-success replybtn" *ngIf="username && !comment.deletedComment">Reply</button>
+          <button type="button" class="btn btn-sm editbtn" *ngIf="(comment.createdBy === username) && !comment.deletedComment">Edit</button>
 
           <div class="reply-form" *ngIf="username">
             <form [formGroup]='replyForm' (ngSubmit)='saveReply(comment._id)'>
-              <textarea rows="3" cols="20" class="form-control" formControlName='replyBody' placeholder="Write a Reply..."
-                [ngClass]="{'is-valid': (replyForm.controls.replyBody.valid && replyForm.controls.replyBody.dirty), 'is-invalid' : (!replyForm.controls.replyBody.valid && replyForm.controls.replyBody.dirty) || (!replyForm.controls.replyBody.valid && replySubmitted)}"></textarea>
+              <textarea rows="3" cols="20" class="form-control" formControlName='replyBody'
+                placeholder="Write a Reply..."
+                [ngClass]="{'is-valid': (replyForm.controls.replyBody.valid && replyForm.controls.replyBody.dirty), 'is-invalid' : (!replyForm.controls.replyBody.valid && replyForm.controls.replyBody.dirty)}"></textarea>
               <button type="submit" class="btn btn-sm btn-primary" [disabled]="!replyForm.valid">Post a Reply</button>
             </form>
           </div>
 
-          <p *ngIf="comment.replys.length !== 0" class="replyAnchor"><span class="glyphicon glyphicon-triangle-bottom"></span>
+          <p *ngIf="comment.replys.length !== 0" class="replyAnchor"><span
+              class="glyphicon glyphicon-triangle-bottom"></span>
             View {{ comment.replys.length }} Replys</p>
 
           <div class="replysList">
@@ -75,6 +85,7 @@
               <li *ngFor="let reply of comment.replys" id="{{reply._id}}">
 
                 <div class="replyHeader">
+                  <span class="fa fa-trash-o deletebtn" *ngIf="reply.repliedBy === username" (click)="deleteReply(reply._id)"></span>
                   <p>replied by <span class="repliedBy"> {{ reply.repliedBy }} </span> On <span class="repliedAt">{{
                       reply.createdAt | date:'medium' }}</span></p>
                 </div>
@@ -84,14 +95,17 @@
                   <div class="edit-reply-form" *ngIf="reply.repliedBy === username">
                     <form [formGroup]='editReplyForm' (ngSubmit)='saveReplyEdit(reply._id)'>
                       <textarea rows="2" cols="20" class="form-control" formControlName='editReplyBody'
-                        [ngClass]="{'is-valid': (editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty), 'is-invalid' : (!editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty) || (!editReplyForm.controls.editReplyBody.valid && editReplySubmitted)}" (input)="checkReplyMatch($event)"></textarea>
-                      <button type="submit" class="btn btn-sm btn-primary" [disabled]="!editReplyForm.valid || editReplyMatch">Save</button>
+                        [ngClass]="{'is-valid': (editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty), 'is-invalid' : (!editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty)}"
+                        (input)="checkReplyMatch($event)"></textarea>
+                      <button type="submit" class="btn btn-sm btn-primary"
+                        [disabled]="!editReplyForm.valid || editReplyMatch">Save</button>
                     </form>
                   </div>
                 </div>
 
                 <div class="replyFooter">
-                    <button type="button" class="btn btn-sm editReplybtn" *ngIf="reply.repliedBy === username">Edit</button>
+                  <button type="button" class="btn btn-sm editReplybtn"
+                    *ngIf="reply.repliedBy === username">Edit</button>
                 </div><br>
 
               </li>
@@ -99,7 +113,7 @@
           </div>
 
         </div><br>
-        
+
       </li>
     </ul>
   </div>

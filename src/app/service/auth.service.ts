@@ -63,6 +63,7 @@ export class AuthService {
             clearInterval(session);
             jQuery('#sessionModal').modal('show');
           } else {
+            this.setUserData(payload.name, payload.username, payload.email);
             this.sessionExpired = false;
           }
         } catch (err) {

@@ -63,20 +63,26 @@ export class AppComponent implements OnInit {
     let checkCommentList = setInterval(() => {
       $('body').css('cursor', 'wait')
       if ($('.commentsList').is(':visible')) {
-        $('#' + target.commentID).find('.replyAnchor span').removeClass('glyphicon-triangle-bottom')
-        $('#' + target.commentID).find('.replyAnchor span').addClass('glyphicon-triangle-top')
-        
-        $('#' + target.commentID).find('.replysList').show();
-        $('#' + target.replyID)[0].scrollIntoView();
-        $(window)[0].scrollBy({top: -200});
-        $( '#' + target.replyID ).animate({backgroundColor: "yellow"}, 500).animate({backgroundColor: "#20b2aa"}, 500);
-        $('body').css('cursor', 'default')
-        clearInterval(checkCommentList);
+        console.log($('#' + target.replyID)[0])
+        if ($('#' + target.replyID)[0]) {
+          $('#' + target.commentID).find('.replyAnchor span').removeClass('glyphicon-triangle-bottom')
+          $('#' + target.commentID).find('.replyAnchor span').addClass('glyphicon-triangle-top')
+
+          $('#' + target.commentID).find('.replysList').show();
+          $('#' + target.replyID)[0].scrollIntoView();
+          $(window)[0].scrollBy({ top: -200 });
+          $('#' + target.replyID).animate({ backgroundColor: "yellow" }, 500).animate({ backgroundColor: "#20b2aa" }, 500);
+          $('body').css('cursor', 'default')
+          clearInterval(checkCommentList);
+        }else{
+          $('body').css('cursor', 'default')
+          clearInterval(checkCommentList);
+        }
       }
     }, 1000)
-    if(!notificationSeen){
-      this.notificationService.updateNotificationSeen(notificationID, notificationSeen).subscribe((res)=>{
-        if(res.success){
+    if (!notificationSeen) {
+      this.notificationService.updateNotificationSeen(notificationID, notificationSeen).subscribe((res) => {
+        if (res.success) {
           this.newNotifications[index].seen = true;
           this.notificationCount--;
           $('#pageTitle').text(this.pageTitle());

@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" *ngIf="!loading">
   <div class="container">
-    <a class="navbar-brand" [routerLink]="[ '/' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Angular2+Authentication</a>
+    <a class="navbar-brand" [routerLink]="[ '/' ]" routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }">Angular2+Authentication</a>
 
     <div class="notification-wrapper-sm" *ngIf="isLoggedIn">
       <div class="notification-bell-sm" (click)="showNotifications($event)">
@@ -16,13 +17,16 @@
         </div>
         <div class="notification-body">
           <div *ngFor="let notification of newNotifications; index as i">
-            <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}" (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
+            <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}"
+              (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
               <div class="notification-text">
                 <span class="highlight">{{notification.from}}</span> {{notification.body}}
               </div>
               <div class="notification-date">
                 <span class="highlight fa fa-clock-o" style="color: black;"></span>
-                <abbr style="text-decoration: none; cursor: pointer;" title="{{notification.notificationDate | date:'medium'}}"> {{notification.notificationDate | notificationDateFormat}}</abbr>
+                <abbr style="text-decoration: none; cursor: pointer;"
+                  title="{{notification.notificationDate | date:'medium'}}">
+                  {{notification.notificationDate | notificationDateFormat}}</abbr>
               </div>
             </div>
           </div>
@@ -30,19 +34,21 @@
       </div>
     </div>
 
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarList" aria-controls="navbarList"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarList"
+      aria-controls="navbarList" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarList">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="[ '/' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+          <a class="nav-link" [routerLink]="[ '/' ]" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">Home</a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" style="cursor: pointer;" data-toggle="dropdown" data-target="#dropdownMenu">MEAN
+          <a class="nav-link dropdown-toggle" style="cursor: pointer;" data-toggle="dropdown"
+            data-target="#dropdownMenu">MEAN
             Stack
             Authentication <span class="caret"></span></a>
           <ul class="dropdown-menu bg-dark">
@@ -52,31 +58,36 @@
                 [routerLinkActiveOptions]="{ exact: true }">Part I : Registration</a></li>
             <li><a class="nav-link" [routerLink]="[ '/MEAN/login' ]" routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }">Part II : Login</a></li>
-            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
-            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
-            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+            <li><a class="nav-link" [routerLink]="[ '' ]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
           </ul>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="[ '/MEAN/login' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">MEAN-Login</a>
+          <a class="nav-link" [routerLink]="[ '/MEAN/login' ]" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">MEAN-Login</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="[ '/profile' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-            *ngIf="isLoggedIn">Profile</a>
+          <a class="nav-link" [routerLink]="[ '/profile' ]" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">Profile</a>
         </li>
       </ul>
 
       <ul class="navbar-nav ml-auto left-side">
+
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="[ '/register' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-            *ngIf="!isLoggedIn">Register</a>
+          <a class="nav-link" [routerLink]="[ '/register' ]" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" *ngIf="!isLoggedIn">Register</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="[ '/login' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-            *ngIf="!isLoggedIn">Login</a>
+          <a class="nav-link" [routerLink]="[ '/login' ]" routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }" *ngIf="!isLoggedIn">Login</a>
         </li>
 
         <li class="nav-item">
@@ -95,13 +106,16 @@
               </div>
               <div class="notification-body">
                 <div *ngFor="let notification of newNotifications; index as i">
-                  <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}" (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
+                  <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}"
+                    (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
                     <div class="notification-text">
                       <span class="highlight">{{notification.from}}</span> {{notification.body}}
                     </div>
                     <div class="notification-date">
                       <span class="highlight fa fa-clock-o" style="color: black;"></span>
-                      <abbr style="text-decoration: none; cursor: pointer;" title="{{notification.notificationDate | date:'medium'}}"> {{notification.notificationDate | notificationDateFormat}}</abbr>
+                      <abbr style="text-decoration: none; cursor: pointer;"
+                        title="{{notification.notificationDate | date:'medium'}}">
+                        {{notification.notificationDate | notificationDateFormat}}</abbr>
                     </div>
                   </div>
                 </div>
@@ -112,8 +126,8 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer" (click)="logout()" data-toggle="modal" data-target="#loggingOutModal"
-            data-backdrop="static" *ngIf="isLoggedIn">Logout</a>
+          <a class="nav-link" style="cursor: pointer" (click)="logout()" data-toggle="modal"
+            data-target="#loggingOutModal" data-backdrop="static" *ngIf="isLoggedIn">Logout</a>
         </li>
 
       </ul>

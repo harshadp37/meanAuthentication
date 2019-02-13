@@ -57,7 +57,13 @@
     margin-bottom: 0px;
 }
 
+.commentDiv .commentsList .deletedComment{
+    font-size: 14px;
+    font-weight: 500;
+}
+
 .commentDiv .commentsList .commentHeader{
+    position: relative;
     font-size: 15px;
 }
 
@@ -70,6 +76,15 @@
 .commentDiv .commentsList .commentHeader .postedAt{
     font-size: 15px;
     font-weight: bold;
+}
+
+.commentDiv .commentsList .commentHeader .deletebtn{
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    font-size: 20px;
+    color: red;
+    display: none;
 }
 
 .commentDiv .commentsList .commentBody{
@@ -131,6 +146,7 @@
 }
 
 .commentDiv .commentsList .commentFooter .replysList .replyHeader{
+    position: relative;
     font-size: 15px;
 }
 
@@ -143,6 +159,15 @@
 .commentDiv .commentsList .commentFooter .replysList .replyHeader .repliedAt{
     font-size: 15px;
     font-weight: bold;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyHeader .deletebtn{
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    font-size: 20px;
+    color: red;
+    display: none;
 }
 
 .commentDiv .commentsList .commentFooter .replysList .replyBody{
@@ -169,6 +194,47 @@
     margin-top: 5px;
     font-size: 15px;
     font-weight: bold;
+}
+  
+.deletebtn:hover{
+    -animation: horizontal1 .2s infinite linear;
+    -webkit-animation: horizontal2 .2s infinite linear;
+}
+
+@-webkit-keyframes horizontal2 {
+    0% {
+      transform: translate(0,0);
+    }
+  
+    33% {
+      transform: translate(5px,0);
+    }
+  
+    66% {
+      transform: translate(-5px,0);
+    }
+
+    100% {
+        transform: translate(0,0);
+    }
+}
+
+@keyframes horizontal1 {
+    0% {
+      transform: translate(0,0);
+    }
+  
+    33% {
+      transform: translate(5px,0);
+    }
+  
+    66% {
+      transform: translate(-5px,0);
+    }
+
+    100% {
+        transform: translate(0,0);
+    }
 }
 
 .glyphicon-repeat-animate {

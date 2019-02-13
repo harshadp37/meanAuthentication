@@ -41,11 +41,19 @@ export class CommentService {
     return this.http.put('/posts/updateComment/' + commentID, editBody);
   }
 
+  deleteComment(commentID) : Observable<any>{
+    return this.http.delete('/posts/deleteComment/' + commentID);
+  }
+
   saveReply(commentID, reply) : Observable<any>{
     return this.http.post('/posts/saveReply/' + commentID, reply);
   }
 
   saveEditedReply(replyID, editReplyBody) : Observable<any>{
     return this.http.put('/posts/updateReply/' + replyID, editReplyBody);
+  }
+
+  deleteReply(replyID) : Observable<any>{
+    return this.http.delete('/posts/deleteReply/' + replyID);
   }
 }
