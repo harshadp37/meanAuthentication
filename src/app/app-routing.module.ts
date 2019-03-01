@@ -17,6 +17,9 @@ import { ActivationComponent } from './activationComponents/activation/activatio
 import { ActivateComponent } from './activationComponents/activate/activate.component';
 
 import { MeanRoutingModule } from './MEAN/mean-routing.module';
+import { ProfileDetailsComponent } from './userComponents/profile/profile-details/profile-details.component';
+import { RecentActivityComponent } from './userComponents/profile/recent-activity/recent-activity.component';
+import { AccountSettingComponent } from './userComponents/profile/account-setting/account-setting.component';
 
 //Routes, NoAuthGuards are for which dont need Authenticated User
 //        AuthGuards are for which need Authenticated User
@@ -25,7 +28,11 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent, canActivate: [NoAuthGuard] },
   { path: "login", component: LoginComponent, canActivate: [NoAuthGuard] },
 
-  { path: "profile", component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: "profile", component: ProfileComponent, canActivate: [AuthGuard], children:[
+    {path: '', component: ProfileDetailsComponent},
+    {path: 'activities', component: RecentActivityComponent},
+    {path: 'account-setting', component: AccountSettingComponent}
+  ] },
 
   { path: "forgotPassword", component: ForgotPasswordComponent, canActivate: [NoAuthGuard] },
   { path: "resetPassword/:token", component: ResetPasswordComponent, canActivate: [NoAuthGuard]},

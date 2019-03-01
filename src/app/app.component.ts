@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationCancel } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from './service/auth.service';
 import { NotificationService } from './service/notification.service';
 //import * as $ from 'jquery';
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   newNotifications = [];
   notificationCount: number = 0;
 
-  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService) {
+  constructor(private router: Router, private authService: AuthService, private notificationService: NotificationService, private dms: DomSanitizer) {
 
     router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
@@ -37,6 +38,7 @@ export class AppComponent implements OnInit {
       this.authService.sessionCheck();
       this.notificationService.getAllNotification().subscribe((res) => {
         if (res.success) {
+          this.authService.user.profilePicUrl = "data:image/jpg;base64, " + res.profilePic;
           this.newNotifications = res.notifications;
           for (let i = 0; i < this.newNotifications.length; i++) {
             if (!this.newNotifications[i].seen) {
@@ -95,8 +97,8 @@ export class AppComponent implements OnInit {
     return this.authService.load;
   }
 
-  get username() {
-    return this.authService.user.username;
+  get user() {
+    return this.authService.user;
   }
 
   get isLoggedIn() {

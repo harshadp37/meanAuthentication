@@ -13,8 +13,3 @@
     from { -webkit-transform: rotate(0deg);}
     to { -webkit-transform: rotate(360deg);}
 }
-
-.container{
-    position: relative;
-    top: 70px;
-}

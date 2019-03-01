@@ -29,6 +29,10 @@ export class UserService {
     return this.http.get('/api/me')
   }
 
+  getProfilePic() : Observable<any>{
+    return this.http.get('/api/profilePic');
+  }
+
   sendResetLink(passwordResetData) : Observable<any>{
     return this.http.post('/api/forgotPassword', passwordResetData);
   }

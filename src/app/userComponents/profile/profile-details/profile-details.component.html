@@ -1,0 +1,11 @@
+<h3>Details</h3>
+<div *ngIf="isLoggedIn">
+  <p class="details">
+    Name : <strong>{{ user.name }}</strong><br>
+    Username : <strong>{{ user.username }}</strong><br>
+    Email : <strong>{{ user.email }}</strong><br>
+  </p>
+</div>
+<div *ngIf="!isLoggedIn">
+  <p><strong>You are not Logged in.</strong></p>
+</div>

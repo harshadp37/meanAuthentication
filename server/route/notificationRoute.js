@@ -28,11 +28,12 @@ router.use((req, res, next) => {
 
 router.get('/all', (req, res) => {
     if (req.decoded) {
-        User.findOne({ username: req.decoded.username }, { notificationList: 1 }, (err, user) => {
+        User.findOne({ username: req.decoded.username }, { notificationList: 1, profilePic: 1 }, (err, user) => {
             if (user) {
                 user.populate('notificationList', {}, null, { sort: { notificationDate: -1 } }, (err, doc) => {
                     if (doc) {
-                        res.json({ success: true, notifications: doc.notificationList })
+                        console.log(doc)
+                        res.json({ success: true, notifications: doc.notificationList, profilePic: doc.profilePic.toString('base64') })
                     } else {
                         res.json({ success: false, message: 'Something Wrong with Token' })
                     }

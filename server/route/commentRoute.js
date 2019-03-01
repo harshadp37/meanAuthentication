@@ -215,7 +215,7 @@ router.post('/saveReply/:commentID', (req, res) => {
                             sendOtherNotification(req, doc, newReply)
                         }
                     })
-                }else{
+                } else {
                     sendOtherNotification(req, doc, newReply);
                 }
             }
@@ -225,7 +225,7 @@ router.post('/saveReply/:commentID', (req, res) => {
     }
 })
 
-function sendOtherNotification(req, doc, newReply){
+function sendOtherNotification(req, doc, newReply) {
     if (doc.replys.length != 0) {
         Reply.find({ _id: doc.replys }, (err, replys) => {
             if (err) {

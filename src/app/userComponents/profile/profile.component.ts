@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/service/auth.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -8,7 +10,9 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private authService : AuthService) { }
+  profilePic;
+
+  constructor(private authService : AuthService, private userService: UserService, private dms: DomSanitizer) { }
 
   ngOnInit() {
   }

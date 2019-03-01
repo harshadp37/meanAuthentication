@@ -1,0 +1,5 @@
+<div class="accountSetting">
+  <img *ngIf="user.profilePicUrl" class="profilePic" [src]="dms.bypassSecurityTrustUrl(user.profilePicUrl)">
+  <button class="btn btn-sm btn-success btnChange">Change..</button>
+  <input type="file" class="imageToChange" (change)="processImage($event)">
+</div>

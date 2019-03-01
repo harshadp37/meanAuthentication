@@ -1,8 +1,22 @@
 <div class="container p-5">
-<div>
-  <p>
-    Username : <strong>{{ user.username }}</strong><br>
-    LoggedIn Status : <strong>{{ isLoggedIn }}</strong>
-  </p>
-</div>
+  <div class="header">
+    <div class="headerWrapper">
+      <img class="profilePic" *ngIf="user.profilePicUrl" [src]="dms.bypassSecurityTrustUrl(user.profilePicUrl)">&nbsp;
+      <span><a [routerLink]="[ '/profile' ]" routerLinkActive="active">{{user.name}}</a></span>
+    </div>
+  </div>
+
+  <div class="mainWrapper">
+    <div class="sideMenu">
+      <ul>
+        <li [routerLink]="[ './' ]"><a>Details</a></li>
+        <li [routerLink]="[ './activities' ]"><a>Recent Activity</a></li>
+        <li [routerLink]="[ './account-setting' ]"><a>Account Setting</a></li>
+      </ul>
+    </div>
+
+    <div class="mainContent">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

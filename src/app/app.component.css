@@ -1,3 +1,8 @@
+.out{
+    position: relative;
+    top: 78px;
+}
+
 nav{
     position: fixed;
     width: 100vw;
@@ -22,7 +27,15 @@ nav ul li a:hover{
     display: block;
 }
 
-.notification-bell, .notification-bell-sm{
+.notification-bell{
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+    margin-top: 80%;
+    display: block;
+}
+
+.notification-bell-sm{
     position: relative;
     cursor: pointer;
     z-index: 2;
@@ -170,6 +183,77 @@ nav ul li a:hover{
     display: none;
 }
 
+.profilePic-div{
+    display: block;
+}
+
+.profilePic-div-sm{
+    margin-left: 5px;
+    margin-right: 9px;
+    display: none;
+}
+
+.imgProfile{
+    border-radius: 40%;
+    height: 40px;
+    width: 40px;
+}
+
+.profileMenu{
+    list-style: none;
+    left: unset;
+    float: right;
+    right: 0;
+    width: 200px;
+    padding: 0;
+    background-color: teal;
+    border: 2px solid #03573b;
+    box-shadow: 5px 5px 20px 0px black;
+}
+
+.profileMenu .triangle{
+    position: absolute;
+    top: -9px;
+    left: 160px;
+    height: 15px;
+    width: 15px;
+    transform: rotate(45deg);
+    background: inherit;
+    border-top: 2px solid teal;
+    border-left: 2px solid #056d4a;
+}
+
+.profileMenu ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profileMenu ul .profileName{
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.profileMenu ul li{
+    margin: 5px;
+    margin-right: 40px;
+    font-size: 20px;
+}
+
+.profileMenu ul li a{
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 17px;
+    color: #ffc107;
+}
+
+.profileMenu ul li a:hover{
+    color: rgb(69, 76, 74);
+    transition: 0.2s ease;
+}
+
 @media(max-width:768px){
     .notification-wrapper{
         display: none;
@@ -189,5 +273,38 @@ nav ul li a:hover{
     
     .notification-bell-sm{
         display: block;
+    }
+
+    .profilePic-div{
+        display: none;
+    }
+    
+    .profilePic-div-sm{
+        display: block;
+    }
+
+    .imgProfile{
+        border-radius: 40%;
+        height: 35px;
+        width: 35px;
+    }
+
+    .profileMenu{
+        top: 125%;
+        width: 180px;
+    }
+
+    .profileMenu .triangle{
+        top: -9px;
+        left: 155px;
+    }
+
+    .profileMenu ul li{
+        margin: 3px;
+        margin-right: 20px;
+    }
+
+    .profileMenu ul li a{
+        font-size: 15px;
     }
 }

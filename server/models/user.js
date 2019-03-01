@@ -54,6 +54,9 @@ var userSchema = new mongoose.Schema({
         required: true,
         validate: nameValidator,
     },
+    profilePic: {
+        type: Buffer
+    },
     username: {
         type: String,
         required: true,
@@ -64,7 +67,7 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        lowercase : true,
+        lowercase: true,
         validate: emailValidator
     },
     password: {
@@ -72,33 +75,33 @@ var userSchema = new mongoose.Schema({
         required: true,
         validate: passwordValidator
     },
-    passwordResetToken : {
+    passwordResetToken: {
         type: String,
         required: false
     },
-    activationToken : {
-        type : String,
+    activationToken: {
+        type: String,
         required: true
     },
     accountVerified: {
-        type : Boolean,
-        required : true,
-        default : false
+        type: Boolean,
+        required: true,
+        default: false
     },
-    notificationList : [{
-        type : mongoose.SchemaTypes.ObjectId,
-        ref : 'notifications'
+    notificationList: [{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'notifications'
     }],
 }, { collection: "users" });
 
 userSchema.plugin(titlize, {
-    paths : ['name']
+    paths: ['name']
 })
 
 userSchema.pre('save', function (next) {
     var user = this;
 
-    if(!user.isModified('password')) return next();
+    if (!user.isModified('password')) return next();
 
     bcrypt.hash(user.password, 5, function (err, hash) {
         if (err) return next(err);
@@ -107,8 +110,8 @@ userSchema.pre('save', function (next) {
     });
 });
 
-userSchema.methods.validPassword = function(password){
+userSchema.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
-}   
+}
 
 module.exports = mongoose.model("users", userSchema);

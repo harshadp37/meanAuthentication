@@ -34,6 +34,24 @@
       </div>
     </div>
 
+    <div class="dropdown profilePic-div-sm" *ngIf="isLoggedIn">
+      <a style="cursor: pointer;" data-toggle="dropdown" data-target="#dropdownMenu"><img class="imgProfile" *ngIf="user.profilePicUrl"
+          [src]="dms.bypassSecurityTrustUrl(user.profilePicUrl)"> <span class="caret"></span></a>
+      <div class="dropdown-menu profileMenu">
+        <span class="triangle"></span>
+        <ul>
+          <li class="profileName"><a>{{user.name}}</a></li>
+          <div style="border: 1px solid grey"></div>
+          <li><a [routerLink]="[ '/profile' ]" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+          <li><a [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Setting</a>
+          </li>
+          <li><a (click)="logout()" data-toggle="modal" data-target="#loggingOutModal" data-backdrop="static"
+              *ngIf="isLoggedIn">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarList"
       aria-controls="navbarList" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -70,11 +88,6 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="[ '/MEAN/login' ]" routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }">MEAN-Login</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="[ '/profile' ]" routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }" *ngIf="isLoggedIn">Profile</a>
         </li>
       </ul>
 
@@ -125,9 +138,23 @@
 
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" style="cursor: pointer" (click)="logout()" data-toggle="modal"
-            data-target="#loggingOutModal" data-backdrop="static" *ngIf="isLoggedIn">Logout</a>
+        <li class="nav-item dropdown profilePic-div" *ngIf="isLoggedIn">
+          <a class="nav-link" style="cursor: pointer;" data-toggle="dropdown" data-target="#dropdownMenu"><img
+              class="imgProfile" *ngIf="user.profilePicUrl" [src]="dms.bypassSecurityTrustUrl(user.profilePicUrl)"></a>
+          <div class="dropdown-menu profileMenu">
+            <span class="triangle"></span>
+            <ul>
+              <li class="profileName"><a [routerLink]="[ '/profile' ]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">{{user.name}}</a></li>
+              <div style="border: 1px solid grey"></div>
+              <li><a [routerLink]="[ '/profile' ]" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
+              <li><a [routerLink]="[ '/profile/account-setting' ]" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{ exact: true }">Setting</a></li>
+              <li><a (click)="logout()" data-toggle="modal" data-target="#loggingOutModal" data-backdrop="static"
+                  *ngIf="isLoggedIn">Logout</a></li>
+            </ul>
+          </div>
         </li>
 
       </ul>
@@ -177,6 +204,6 @@
   </div>
 </div>
 
-<div *ngIf="!loading">
+<div class="out" *ngIf="!loading">
   <router-outlet></router-outlet>
 </div>

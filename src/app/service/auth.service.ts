@@ -13,7 +13,8 @@ export class AuthService {
   user = {
     name: '',
     username: '',
-    email: ''
+    email: '',
+    profilePicUrl: ''
   }
 
   load: boolean;
@@ -48,6 +49,7 @@ export class AuthService {
       this.user.name = '';
       this.user.username = '';
       this.user.email = '';
+      this.user.profilePicUrl = '';
     }
   }
 

@@ -33,6 +33,9 @@ import { CommentsComponent } from './MEAN/comments/comments.component';
 import { CommentService } from './service/comment.service';
 import { NotificationService } from './service/notification.service';
 import { NotificationDateFormatPipe } from './notification-date-format.pipe';
+import { ProfileDetailsComponent } from './userComponents/profile/profile-details/profile-details.component';
+import { RecentActivityComponent } from './userComponents/profile/recent-activity/recent-activity.component';
+import { AccountSettingComponent } from './userComponents/profile/account-setting/account-setting.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,9 @@ import { NotificationDateFormatPipe } from './notification-date-format.pipe';
     IntroAndSetupComponent,
     CommentsComponent,
     NotificationDateFormatPipe,
+    ProfileDetailsComponent,
+    RecentActivityComponent,
+    AccountSettingComponent,
   ],
   imports: [
     BrowserModule,

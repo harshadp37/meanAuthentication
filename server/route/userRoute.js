@@ -310,6 +310,7 @@ router.use((req, res, next) => {
     if (token) {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
+                req.decoded = null;
                 res.json({ success: false, message: 'Token Invalid.' });
             } else {
                 req.decoded = decoded;
@@ -317,6 +318,7 @@ router.use((req, res, next) => {
             }
         })
     } else {
+        req.decoded = null;
         res.json({ success: false, message: 'Token Not Provided.' });
     }
 })
@@ -324,5 +326,21 @@ router.use((req, res, next) => {
 router.get('/me', (req, res) => {
     res.json({ success: true, message: req.decoded });
 });
+
+router.get('/profilePic', (req, res)=>{
+    if(req.decoded){
+        User.findOne({username: req.decoded.username}, {profilePic: 1}, (err, user)=>{
+            if(err){
+                res.json({success: false, message: err})
+            }else if(!user){
+                res.json({success: false, message: 'User not found'})
+            }else{
+                res.json({success: true, profilePic: user.profilePic.toString('base64')});
+            }
+        })
+    }else{
+        res.json({success: false, message: 'Something went wrong.'});
+    }
+})
 
 module.exports = router;
