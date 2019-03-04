@@ -33,6 +33,11 @@ export class UserService {
     return this.http.get('/api/profilePic');
   }
 
+  changeProfilePic(data) : Observable<any>{
+    console.log(data)
+    return this.http.put('/api/profilePic', data);
+  }
+
   sendResetLink(passwordResetData) : Observable<any>{
     return this.http.post('/api/forgotPassword', passwordResetData);
   }

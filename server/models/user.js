@@ -55,7 +55,8 @@ var userSchema = new mongoose.Schema({
         validate: nameValidator,
     },
     profilePic: {
-        type: Buffer
+        fileType: { type: String },
+        value: { type: String }
     },
     username: {
         type: String,

@@ -1,5 +1,13 @@
+<canvas id="c" style="display: none;"></canvas>
+<img id="mod" src="" style="display: none;"/>
+
 <div class="accountSetting">
-  <img *ngIf="user.profilePicUrl" class="profilePic" [src]="dms.bypassSecurityTrustUrl(user.profilePicUrl)">
+  <div class="profilePicDiv">
+    <img *ngIf="user.profilePicUrl || alternateProfilePicUrl" class="profilePic" id="pp"
+      [src]="dms.bypassSecurityTrustUrl(alternateProfilePicUrl ? alternateProfilePicUrl : user.profilePicUrl)">
+  </div>
   <button class="btn btn-sm btn-success btnChange">Change..</button>
-  <input type="file" class="imageToChange" (change)="processImage($event)">
+  <input type="file" class="imageToChange" (change)="processImage($event)" accept="image/*">
+
+  <button class="btn btn-sm btn-success btnSave" (click)="saveImage()" [disabled]="!profilePicChanged">Save</button>
 </div>

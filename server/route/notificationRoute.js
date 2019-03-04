@@ -17,6 +17,7 @@ router.use((req, res, next) => {
                 next();
             } else {
                 req.decoded = decoded;
+                console.log(req.decoded);
                 next();
             }
         })
@@ -32,8 +33,7 @@ router.get('/all', (req, res) => {
             if (user) {
                 user.populate('notificationList', {}, null, { sort: { notificationDate: -1 } }, (err, doc) => {
                     if (doc) {
-                        console.log(doc)
-                        res.json({ success: true, notifications: doc.notificationList, profilePic: doc.profilePic.toString('base64') })
+                        res.json({ success: true, notifications: doc.notificationList, profilePic: doc.profilePic.value ? { fileType: doc.profilePic.fileType, value: doc.profilePic.value.toString('base64') } : null})
                     } else {
                         res.json({ success: false, message: 'Something Wrong with Token' })
                     }
@@ -47,18 +47,18 @@ router.get('/all', (req, res) => {
     }
 })
 
-router.put('/updateSeen/:notificationID', (req, res)=>{
-    if(req.decoded && !req.body.notificationSeen){
-        Notification.findOneAndUpdate({$and : [{_id: req.params.notificationID}, {user: req.decoded.username}]} , {seen: true}, (err, unotification)=>{
-            if(err){
-                res.json({success: false, message: err});
-            }else if(!unotification){
-                res.json({success: false, message: 'Notification ID not found'});
-            }else{
-                res.json({success: true, message: 'Seen Updated'});
+router.put('/updateSeen/:notificationID', (req, res) => {
+    if (req.decoded && !req.body.notificationSeen) {
+        Notification.findOneAndUpdate({ $and: [{ _id: req.params.notificationID }, { user: req.decoded.username }] }, { seen: true }, (err, unotification) => {
+            if (err) {
+                res.json({ success: false, message: err });
+            } else if (!unotification) {
+                res.json({ success: false, message: 'Notification ID not found' });
+            } else {
+                res.json({ success: true, message: 'Seen Updated' });
             }
         })
-    }else{
+    } else {
         res.json({ success: false, message: 'Something Wrong with Token' })
     }
 })

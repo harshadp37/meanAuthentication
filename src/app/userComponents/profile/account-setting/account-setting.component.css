@@ -1,14 +1,24 @@
 .accountSetting{
     position: relative;
     margin: 15px;
+    width: 30%;
     float: right;
+}
+
+.accountSetting .profilePicDiv{
+    position: relative;
+    width: 225px;
+    height: 225px;
+    overflow: scroll;
+}
+
+.accountSetting .profilePicDiv::-webkit-scrollbar{
+    display: none;
 }
 
 .accountSetting .profilePic{
     opacity: 1;
     display: block;
-    width: 100%;
-    height: auto;
     transition: .5s ease;
 }
 
@@ -23,6 +33,11 @@
     text-align: center;
 }
 
+.accountSetting .btnSave{
+    margin: 15px;
+    float: right;
+}
+
 .accountSetting:hover .profilePic{
     opacity: 0.3;
 }
@@ -33,5 +48,24 @@
 
 .imageToChange{
     display: none;
+}
+
+@media(max-width:768px){
+    .accountSetting{
+        margin: 0;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        float: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .accountSetting .btnSave{
+        margin: 10px;
+        width: 80%;
+        float: none;
+    }
 }
 

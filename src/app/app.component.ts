@@ -38,7 +38,11 @@ export class AppComponent implements OnInit {
       this.authService.sessionCheck();
       this.notificationService.getAllNotification().subscribe((res) => {
         if (res.success) {
-          this.authService.user.profilePicUrl = "data:image/jpg;base64, " + res.profilePic;
+          if (res.profilePic) {
+            this.authService.user.profilePicUrl = "data:" + res.profilePic.fileType + ";base64, " + res.profilePic.value;
+          } else {
+            this.authService.user.profilePicUrl = "../assets/images/defaultPic.jpg"
+          }
           this.newNotifications = res.notifications;
           for (let i = 0; i < this.newNotifications.length; i++) {
             if (!this.newNotifications[i].seen) {
@@ -76,7 +80,7 @@ export class AppComponent implements OnInit {
           $('#' + target.replyID).animate({ backgroundColor: "yellow" }, 500).animate({ backgroundColor: "#20b2aa" }, 500);
           $('body').css('cursor', 'default')
           clearInterval(checkCommentList);
-        }else{
+        } else {
           $('body').css('cursor', 'default')
           clearInterval(checkCommentList);
         }
