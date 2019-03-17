@@ -1,48 +1,48 @@
 .accountSetting{
-    position: relative;
     margin: 15px;
-    width: 30%;
+    width: 33%;
     float: right;
 }
 
 .accountSetting .profilePicDiv{
     position: relative;
-    width: 225px;
-    height: 225px;
+    margin: 0;
+    width: 227px;
+    height: 227px;
+    border: 1px solid tomato;
     overflow: scroll;
 }
 
-.accountSetting .profilePicDiv::-webkit-scrollbar{
+.accountSetting .profilePicDiv::-webkit-scrollbar{ 
     display: none;
 }
 
 .accountSetting .profilePic{
-    opacity: 1;
+    width: 100%;
+    height: 100%;;
     display: block;
     transition: .5s ease;
 }
 
 .accountSetting .btnChange{
-    transition: .5s ease;
-    opacity: 0;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+    float: right;
+    opacity: 0;
+    right: 5px;
+    top: 5px;
     text-align: center;
 }
 
 .accountSetting .btnSave{
-    margin: 15px;
+    margin: 10px 15px 0 0;
     float: right;
 }
 
-.accountSetting:hover .profilePic{
-    opacity: 0.3;
+.profilePicDiv:hover .profilePic{
+    opacity: 1;
 }
 
-.accountSetting:hover .btnChange{
+.profilePicDiv:hover .btnChange{
     opacity: 1;
 }
 
@@ -50,7 +50,7 @@
     display: none;
 }
 
-@media(max-width:768px){
+@media(max-width:1200px){
     .accountSetting{
         margin: 0;
         margin-top: 10px;
@@ -64,8 +64,14 @@
 
     .accountSetting .btnSave{
         margin: 10px;
-        width: 80%;
+        width: 33%;
         float: none;
+    }
+}
+
+@media(max-width:768px){
+    .accountSetting .btnSave{
+        width: 50%;
     }
 }
 

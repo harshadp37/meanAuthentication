@@ -10,6 +10,8 @@
 }
 
 .header .profilePic{
+    width: 225px;
+    height: 225px;
     border-radius: 50%;
 }
 

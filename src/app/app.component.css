@@ -145,9 +145,15 @@ nav ul li a:hover{
     background: rgb(207, 202, 202);
 }
 
+.notification-container .notification-body .notification-profilePic,
+.notification-container-sm .notification-body .notification-profilePic{
+    width: 25px;
+    height: 25px;
+}
+
 .notification-container .notification-body .notification .notification-text,
 .notification-container-sm .notification-body .notification .notification-text{
-    display: table-cell;
+    display: inline;
     vertical-align: middle;
     cursor: pointer;
     font-size: 15px;

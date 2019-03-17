@@ -33,7 +33,13 @@ router.get('/all', (req, res) => {
             if (user) {
                 user.populate('notificationList', {}, null, { sort: { notificationDate: -1 } }, (err, doc) => {
                     if (doc) {
-                        res.json({ success: true, notifications: doc.notificationList, profilePic: doc.profilePic.value ? { fileType: doc.profilePic.fileType, value: doc.profilePic.value.toString('base64') } : null})
+                        doc.populate('notificationList.from', {username: 1, profilePic: 1}, null , {}, (err, doc)=>{
+                            if(doc){
+                                res.json({ success: true, notifications: doc.notificationList, profilePic: doc.profilePic.value ? { fileType: doc.profilePic.fileType, value: doc.profilePic.value.toString('base64') } : null})
+                            }else{
+                                res.json({ success: false, message: 'Something Wrong with Token' })
+                            }
+                        })
                     } else {
                         res.json({ success: false, message: 'Something Wrong with Token' })
                     }
@@ -49,7 +55,7 @@ router.get('/all', (req, res) => {
 
 router.put('/updateSeen/:notificationID', (req, res) => {
     if (req.decoded && !req.body.notificationSeen) {
-        Notification.findOneAndUpdate({ $and: [{ _id: req.params.notificationID }, { user: req.decoded.username }] }, { seen: true }, (err, unotification) => {
+        Notification.findOneAndUpdate({ $and: [{ _id: req.params.notificationID }, { user: req.decoded._id }] }, { seen: true }, (err, unotification) => {
             if (err) {
                 res.json({ success: false, message: err });
             } else if (!unotification) {

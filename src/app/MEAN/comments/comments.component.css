@@ -67,6 +67,17 @@
     font-size: 15px;
 }
 
+.commentDiv .commentsList .commentHeader .commentProfilePic{
+    margin-right: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.commentDiv .commentsList .commentHeader p{
+    display: inline-block;
+}
+
 .commentDiv .commentsList .commentHeader .postedBy{
     font-size: 17px;
     font-weight: bold;
@@ -148,6 +159,17 @@
 .commentDiv .commentsList .commentFooter .replysList .replyHeader{
     position: relative;
     font-size: 15px;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyHeader .replyProfilePic{
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.commentDiv .commentsList .commentFooter .replysList .replyHeader p{
+    display: inline-block;
 }
 
 .commentDiv .commentsList .commentFooter .replysList .replyHeader .repliedBy{

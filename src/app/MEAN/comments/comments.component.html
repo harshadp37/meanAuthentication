@@ -44,14 +44,17 @@
         </div>
 
         <div class="commentHeader" *ngIf="!comment.deletedComment">
-          <span class="fa fa-trash-o deletebtn" *ngIf="comment.createdBy === username" (click)="deleteComment(comment._id)"></span>
-          <p>posted by <span class="postedBy"> {{ comment.createdBy }} </span> On <span class="postedAt">{{
+          <span class="fa fa-trash-o deletebtn" *ngIf="comment.createdBy.username === username"
+            (click)="deleteComment(comment._id)"></span>
+          <img class="commentProfilePic"
+            [src]='this.dms.bypassSecurityTrustUrl(comment.createdBy.profilePic ? "data:" + comment.createdBy.profilePic.fileType + ";base64," + comment.createdBy.profilePic.value : deafultProfilePic)'>
+          <p><span class="postedBy"> {{ comment.createdBy.username }} </span> | <span class="postedAt">{{
               comment.createdAt | date:'medium' }}</span></p>
         </div>
 
         <div class="commentBody" *ngIf="!comment.deletedComment">
           <p>{{ comment.body }}</p>
-          <div class="edit-form" *ngIf="comment.createdBy === username">
+          <div class="edit-form" *ngIf="comment.createdBy.username === username">
             <form [formGroup]='editForm' (ngSubmit)='saveEdit(comment._id)'>
               <textarea rows="2" cols="20" class="form-control" formControlName='editBody'
                 [ngClass]="{'is-valid': (editForm.controls.editBody.valid && editForm.controls.editBody.dirty), 'is-invalid' : (!editForm.controls.editBody.valid && editForm.controls.editBody.dirty)}"
@@ -64,8 +67,10 @@
 
         <div class="commentFooter">
 
-          <button type="button" class="btn btn-sm btn-success replybtn" *ngIf="username && !comment.deletedComment">Reply</button>
-          <button type="button" class="btn btn-sm editbtn" *ngIf="(comment.createdBy === username) && !comment.deletedComment">Edit</button>
+          <button type="button" class="btn btn-sm btn-success replybtn"
+            *ngIf="username && !comment.deletedComment">Reply</button>
+          <button type="button" class="btn btn-sm editbtn"
+            *ngIf="(comment.createdBy.username === username) && !comment.deletedComment">Edit</button>
 
           <div class="reply-form" *ngIf="username">
             <form [formGroup]='replyForm' (ngSubmit)='saveReply(comment._id)'>
@@ -85,14 +90,17 @@
               <li *ngFor="let reply of comment.replys" id="{{reply._id}}">
 
                 <div class="replyHeader">
-                  <span class="fa fa-trash-o deletebtn" *ngIf="reply.repliedBy === username" (click)="deleteReply(reply._id)"></span>
-                  <p>replied by <span class="repliedBy"> {{ reply.repliedBy }} </span> On <span class="repliedAt">{{
+                  <span class="fa fa-trash-o deletebtn" *ngIf="reply.repliedBy.username === username"
+                    (click)="deleteReply(reply._id)"></span>
+                  <img class="replyProfilePic"
+                    [src]='this.dms.bypassSecurityTrustUrl(reply.repliedBy.profilePic ? "data:" + reply.repliedBy.profilePic.fileType + ";base64," + reply.repliedBy.profilePic.value : deafultProfilePic)'>
+                  <p><span class="repliedBy"> {{ reply.repliedBy.username }} </span> | <span class="repliedAt">{{
                       reply.createdAt | date:'medium' }}</span></p>
                 </div>
 
                 <div class="replyBody">
                   <p>{{ reply.body }}</p>
-                  <div class="edit-reply-form" *ngIf="reply.repliedBy === username">
+                  <div class="edit-reply-form" *ngIf="reply.repliedBy.username === username">
                     <form [formGroup]='editReplyForm' (ngSubmit)='saveReplyEdit(reply._id)'>
                       <textarea rows="2" cols="20" class="form-control" formControlName='editReplyBody'
                         [ngClass]="{'is-valid': (editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty), 'is-invalid' : (!editReplyForm.controls.editReplyBody.valid && editReplyForm.controls.editReplyBody.dirty)}"
@@ -105,7 +113,7 @@
 
                 <div class="replyFooter">
                   <button type="button" class="btn btn-sm editReplybtn"
-                    *ngIf="reply.repliedBy === username">Edit</button>
+                    *ngIf="reply.repliedBy.username === username">Edit</button>
                 </div><br>
 
               </li>

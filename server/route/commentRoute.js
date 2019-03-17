@@ -19,11 +19,23 @@ router.get('/:title', (req, res) => {
         if (doc) {
             doc.populate('comments', {}, null, { sort: { 'createdAt': -1 } }, (err, doc) => {
                 if (doc) {
-                    doc.populate('comments.replys', (err, doc) => {
+                    doc.populate('comments.createdBy', { username: 1, profilePic: 1 }, null, {}, (err, doc) => {
                         if (doc) {
-                            res.json({ success: true, comments: doc.comments })
+                            doc.populate('comments.replys', (err, doc) => {
+                                if (doc) {
+                                    doc.populate('comments.replys.repliedBy', { username: 1, profilePic: 1 }, null, {}, (err, doc) => {
+                                        if (doc) {
+                                            res.json({ success: true, comments: doc.comments })
+                                        } else {
+                                            res.json({ success: true, comments: doc.comments })
+                                        }
+                                    })
+                                } else {
+                                    res.json({ success: true, comments: doc.comments })
+                                }
+                            })
                         } else {
-                            res.json({ success: true, comments: doc.comments })
+                            res.json({ success: false, message: "No Comments!!" })
                         }
                     })
                 } else {
@@ -59,7 +71,7 @@ router.post('/saveComment/:title', (req, res) => {
     if (req.decoded && req.body.commentBody) {
         var newComment = new Comment({
             post: req.params.title,
-            createdBy: req.decoded.username,
+            createdBy: req.decoded._id,
             body: req.body.commentBody,
             createdAt: Date.now()
         })
@@ -108,7 +120,7 @@ router.post('/saveComment/:title', (req, res) => {
 
 router.put('/updateComment/:commentID', (req, res) => {
     if (req.decoded && req.body.editBody) {
-        Comment.findOneAndUpdate({ $and: [{ _id: req.params.commentID }, { createdBy: req.decoded.username }] }, { body: req.body.editBody }, (err, comment) => {
+        Comment.findOneAndUpdate({ $and: [{ _id: req.params.commentID }, { createdBy: req.decoded._id }] }, { body: req.body.editBody }, (err, comment) => {
             if (err) {
                 res.json({ success: false, message: err });
             } else if (!comment) {
@@ -124,7 +136,7 @@ router.put('/updateComment/:commentID', (req, res) => {
 
 router.delete('/deleteComment/:commentID', (req, res) => {
     if (req.decoded) {
-        Comment.findOne({ $and: [{ _id: req.params.commentID }, { createdBy: req.decoded.username }] }, (err, comment) => {
+        Comment.findOne({ $and: [{ _id: req.params.commentID }, { createdBy: req.decoded._id }] }, (err, comment) => {
             if (err) {
                 res.json({ success: false, message: err })
             } else if (!comment) {
@@ -178,7 +190,7 @@ router.post('/saveReply/:commentID', (req, res) => {
                 res.json({ success: false, message: 'Reply not Saved...Something went Wrong.' })
             } else {
                 var newReply = new Reply({
-                    repliedBy: req.decoded.username,
+                    repliedBy: req.decoded._id,
                     body: req.body.replyBody,
                     createdAt: Date.now()
                 })
@@ -191,8 +203,8 @@ router.post('/saveReply/:commentID', (req, res) => {
                     .catch((err) => {
                         res.json({ success: false, message: err })
                     })
-                if (req.decoded.username !== doc.createdBy) {
-                    User.findOne({ username: doc.createdBy }, { notificationList: 1 }, (err, commentUser) => {
+                if (req.decoded._id !== doc.createdBy) {
+                    User.findOne({ _id: doc.createdBy }, { notificationList: 1 }, (err, commentUser) => {
                         if (err) {
                             res.json({ success: false, message: err });
                         } else if (!commentUser) {
@@ -200,7 +212,7 @@ router.post('/saveReply/:commentID', (req, res) => {
                         } else {
                             var newNotification = Notification({
                                 user: doc.createdBy,
-                                from: req.decoded.username,
+                                from: req.decoded._id,
                                 body: "replied on your comment.",
                                 target: {
                                     post: doc.post,
@@ -235,12 +247,12 @@ function sendOtherNotification(req, doc, newReply) {
             } else {
                 let replysUsername = [];
                 for (let i = 0; i < replys.length; i++) {
-                    if (req.decoded.username !== replys[i].repliedBy && doc.createdBy !== replys[i].repliedBy) {
+                    if (req.decoded._id !== replys[i].repliedBy && doc.createdBy !== replys[i].repliedBy) {
                         replysUsername.indexOf(replys[i].repliedBy) === -1 ? replysUsername.push(replys[i].repliedBy) : '';
                     }
                 }
                 for (let j = 0; j < replysUsername.length; j++) {
-                    User.findOne({ username: replysUsername[j] }, { notificationList: 1 }, (err, replyUser) => {
+                    User.findOne({ _id: replysUsername[j] }, { notificationList: 1 }, (err, replyUser) => {
                         if (err) {
                             console.log(err);
                         } else if (!replyUser) {
@@ -248,8 +260,8 @@ function sendOtherNotification(req, doc, newReply) {
                         } else {
                             var newNotification = Notification({
                                 user: replysUsername[j],
-                                from: req.decoded.username,
-                                body: "also replied on " + (req.decoded.username === doc.createdBy ? 'his' : doc.createdBy + "'s") + " comment.",
+                                from: req.decoded._id,
+                                body: "also replied on " + (req.decoded._id === doc.createdBy ? 'his' : doc.createdBy + "'s") + " comment.",
                                 target: {
                                     post: doc.post,
                                     commentID: doc,
@@ -270,7 +282,7 @@ function sendOtherNotification(req, doc, newReply) {
 
 router.put('/updateReply/:replyID', (req, res) => {
     if (req.decoded && req.body.editReplyBody) {
-        Reply.findOneAndUpdate({ $and: [{ _id: req.params.replyID }, { repliedBy: req.decoded.username }] }, { body: req.body.editReplyBody }, (err, reply) => {
+        Reply.findOneAndUpdate({ $and: [{ _id: req.params.replyID }, { repliedBy: req.decoded._id }] }, { body: req.body.editReplyBody }, (err, reply) => {
             if (err) {
                 res.json({ success: false, message: err });
             } else if (!reply) {
@@ -286,7 +298,7 @@ router.put('/updateReply/:replyID', (req, res) => {
 
 router.delete('/deleteReply/:replyID', (req, res) => {
     if (req.decoded) {
-        Reply.findOne({ $and: [{ _id: req.params.replyID }, { repliedBy: req.decoded.username }] }, (err, reply) => {
+        Reply.findOne({ $and: [{ _id: req.params.replyID }, { repliedBy: req.decoded._id }] }, (err, reply) => {
             if (err) {
                 res.json({ success: false, message: err })
             } else if (!reply) {

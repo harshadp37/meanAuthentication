@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var notificationSchema = mongoose.Schema({
-    user: { type: String, required: true },
-    from : {type: String},
+    user: { type: mongoose.SchemaTypes.ObjectId, ref:'users' },
+    from : { type: mongoose.SchemaTypes.ObjectId, ref:'users' },
     body: { type: String, required: true },
     target: {
         post: { type: String, required: true },

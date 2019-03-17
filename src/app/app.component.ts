@@ -69,7 +69,6 @@ export class AppComponent implements OnInit {
     let checkCommentList = setInterval(() => {
       $('body').css('cursor', 'wait')
       if ($('.commentsList').is(':visible')) {
-        console.log($('#' + target.replyID)[0])
         if ($('#' + target.replyID)[0]) {
           $('#' + target.commentID).find('.replyAnchor span').removeClass('glyphicon-triangle-bottom')
           $('#' + target.commentID).find('.replyAnchor span').addClass('glyphicon-triangle-top')
@@ -120,9 +119,9 @@ export class AppComponent implements OnInit {
 
   showNotifications(e) {
     if ($(e.target)[0].tagName == "DIV") {
-      $(e.target.nextElementSibling).slideToggle('slow');
+      $(e.target.nextElementSibling).css('display') === 'none' ? $(e.target.nextElementSibling).css('display', 'block') : $(e.target.nextElementSibling).css('display', 'none');
     } else {
-      $(e.target.parentElement.nextElementSibling).slideToggle('slow');
+      $(e.target.parentElement.nextElementSibling).css('display') === 'none' ? $(e.target.parentElement.nextElementSibling).css('display', 'block') : $(e.target.parentElement.nextElementSibling).css('display', 'none');
     }
   }
 
@@ -131,8 +130,8 @@ export class AppComponent implements OnInit {
       if (<any>$(e.target).hasClass('notification-bell') || <any>$(e.target).hasClass('notification-bell-sm') || <any>$(e.target).hasClass('fa fa-bell') || <any>$(e.target).attr('id') === "notifications-count") {
 
       } else if ($('#notification-dropdown').is(':visible') || $('#notification-dropdown-sm').is(':visible')) {
-        $('#notification-dropdown').slideUp('slow');
-        $('#notification-dropdown-sm').slideUp('slow');
+        $('#notification-dropdown').css('display', 'none');
+        $('#notification-dropdown-sm').css('display', 'none');
       }
     })
   }

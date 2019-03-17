@@ -19,8 +19,10 @@
           <div *ngFor="let notification of newNotifications; index as i">
             <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}"
               (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
+              <img class="notification-profilePic"
+                [src]='this.dms.bypassSecurityTrustUrl(notification.from.profilePic ? "data:" + notification.from.profilePic.fileType + ";base64," + notification.from.profilePic.value : deafultProfilePic)'>
               <div class="notification-text">
-                <span class="highlight">{{notification.from}}</span> {{notification.body}}
+                <span class="highlight">{{notification.from.username}}</span> {{notification.body}}
               </div>
               <div class="notification-date">
                 <span class="highlight fa fa-clock-o" style="color: black;"></span>
@@ -35,8 +37,9 @@
     </div>
 
     <div class="dropdown profilePic-div-sm" *ngIf="isLoggedIn">
-      <a style="cursor: pointer;" data-toggle="dropdown" data-target="#dropdownMenu"><img class="imgProfile" *ngIf="user.profilePicUrl"
-          [src]="dms.bypassSecurityTrustUrl(user.profilePicUrl)"> <span class="caret"></span></a>
+      <a style="cursor: pointer;" data-toggle="dropdown" data-target="#dropdownMenu"><img class="imgProfile"
+          *ngIf="user.profilePicUrl" [src]="dms.bypassSecurityTrustUrl(user.profilePicUrl)"> <span
+          class="caret"></span></a>
       <div class="dropdown-menu profileMenu">
         <span class="triangle"></span>
         <ul>
@@ -44,7 +47,8 @@
           <div style="border: 1px solid grey"></div>
           <li><a [routerLink]="[ '/profile' ]" routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>
-          <li><a [routerLink]="[ '' ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Setting</a>
+          <li><a [routerLink]="[ '/profile/account-setting' ]" routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }">Setting</a>
           </li>
           <li><a (click)="logout()" data-toggle="modal" data-target="#loggingOutModal" data-backdrop="static"
               *ngIf="isLoggedIn">Logout</a></li>
@@ -121,8 +125,10 @@
                 <div *ngFor="let notification of newNotifications; index as i">
                   <div class="notification" [ngClass]="{'seen': notification.seen, 'unseen': !notification.seen}"
                     (click)="notificationClick(notification._id, notification.seen, notification.target, i)">
+                    <img class="notification-profilePic"
+                      [src]='this.dms.bypassSecurityTrustUrl(notification.from.profilePic ? "data:" + notification.from.profilePic.fileType + ";base64," + notification.from.profilePic.value : deafultProfilePic)'>
                     <div class="notification-text">
-                      <span class="highlight">{{notification.from}}</span> {{notification.body}}
+                      <span class="highlight">{{notification.from.username}}</span> {{notification.body}}
                     </div>
                     <div class="notification-date">
                       <span class="highlight fa fa-clock-o" style="color: black;"></span>
@@ -145,7 +151,7 @@
             <span class="triangle"></span>
             <ul>
               <li class="profileName"><a [routerLink]="[ '/profile' ]" routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }">{{user.name}}</a></li>
+                  [routerLinkActiveOptions]="{ exact: true }">{{user.name}}</a></li>
               <div style="border: 1px solid grey"></div>
               <li><a [routerLink]="[ '/profile' ]" routerLinkActive="active"
                   [routerLinkActiveOptions]="{ exact: true }">Profile</a></li>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CommentService } from 'src/app/service/comment.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-comments',
@@ -25,7 +26,8 @@ export class CommentsComponent implements OnInit {
   errorMsg: String;
 
   loadingComments: boolean = true;
-  constructor(private commentService: CommentService, private authService: AuthService, private fb: FormBuilder) { }
+  deafultProfilePic = "../../assets/images/defaultPic.jpg";
+  constructor(private commentService: CommentService, private authService: AuthService, private fb: FormBuilder, private dms: DomSanitizer) { }
 
   ngOnInit() {
     this.commentFormInit();

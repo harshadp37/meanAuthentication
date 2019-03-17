@@ -120,7 +120,7 @@ router.post("/login", (req, res) => {
             } else if (!user.accountVerified) {
                 res.json({ success: false, message: 'Account is not yet Activated.Check email for Activaton Link.', activationLink: true })
             } else {
-                var token = jwt.sign({  'name': user.name, 'username': user.username, 'email': user.email }, config.secret, { expiresIn: '12h' });
+                var token = jwt.sign({ '_id':user._id, 'name': user.name, 'username': user.username, 'email': user.email }, config.secret, { expiresIn: '12h' });
                 res.json({ success: true, message: "User Authenticated!!", token: token });
             }
         })

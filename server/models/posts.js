@@ -8,7 +8,7 @@ var postSchema = new mongoose.Schema({
 
 var commentSchema = new mongoose.Schema({
     post: { type: String },
-    createdBy: { type: String },
+    createdBy: { type: mongoose.SchemaTypes.ObjectId, ref: 'users' },
     body: { type: String },
     createdAt: { type: Date },
     replys: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'replys' }],
@@ -16,7 +16,7 @@ var commentSchema = new mongoose.Schema({
 }, { collection: 'comments' });
 
 var replySchema = new mongoose.Schema({
-    repliedBy: { type: String, required: true },
+    repliedBy: { type: mongoose.SchemaTypes.ObjectId, ref: 'users' },
     body: { type: String, required: true },
     createdAt: { type: Date, required: true }
 }, { collection: 'replys' });
