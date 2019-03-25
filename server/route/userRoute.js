@@ -3,6 +3,7 @@ var router = express.Router();
 
 var jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
+var jimp = require('jimp');
 
 var config = require('../../config');
 var User = require("../models/user");
@@ -120,7 +121,7 @@ router.post("/login", (req, res) => {
             } else if (!user.accountVerified) {
                 res.json({ success: false, message: 'Account is not yet Activated.Check email for Activaton Link.', activationLink: true })
             } else {
-                var token = jwt.sign({ '_id':user._id, 'name': user.name, 'username': user.username, 'email': user.email }, config.secret, { expiresIn: '12h' });
+                var token = jwt.sign({ '_id': user._id, 'name': user.name, 'username': user.username, 'email': user.email }, config.secret, { expiresIn: '12h' });
                 res.json({ success: true, message: "User Authenticated!!", token: token });
             }
         })
@@ -327,30 +328,46 @@ router.get('/me', (req, res) => {
     res.json({ success: true, message: req.decoded });
 });
 
-router.put('/profilePic', (req, res)=>{
-    if(req.decoded && req.body.fileType && req.body.value){
-        User.findOne({username: req.decoded.username}, {profilePic: 1}, (err, user)=>{
-            if(err){
-                res.json({success: false, message: err})
-            }else if(!user){
-                res.json({success: false, message: 'User not found'})
-            }else{
-                user.profilePic = {
-                    fileType : req.body.fileType,
-                    value : req.body.value
-                }
-                user.save((err)=>{
-                    if(err){
-                        res.json({success: false, message: err})
-                    }else{
-                        res.json({success: true, message: 'Profile Picture changed!!'});
-                    }
+router.put('/profilePic', (req, res) => {
+    if (req.decoded && req.body.fileType && req.body.value) {
+        User.findOne({ username: req.decoded.username }, { profilePic: 1 }, (err, user) => {
+            if (err) {
+                res.json({ success: false, message: err })
+            } else if (!user) {
+                res.json({ success: false, message: 'User not found' })
+            } else {
+                console.log(req.body.value.length);
+                jimp.read(Buffer.from(req.body.value, 'base64')).then((data) => {
+                    data.resize(225, 225, (err, img) => {
+                        if (err) {
+                            res.json({ success: false, message: 'Something went wrong!!' })
+                        } else {
+                            console.log(img.getMIME());
+                            img.getBase64(jimp.MIME_JPEG, (err, newValue) => {
+                                if (err) {
+                                    res.json({ success: false, message: 'Something went wrong!!' })
+                                } else {
+                                    user.profilePic = {
+                                        fileType: 'image/jpeg',
+                                        value: newValue.split(',')[1]
+                                    }
+                                    user.save((err) => {
+                                        if (err) {
+                                            res.json({ success: false, message: err })
+                                        } else {
+                                            res.json({ success: true, message: 'Profile Picture changed!!' });
+                                        }
+                                    })
+                                }
+                            });
+                        }
+                    });
                 })
             }
         })
-        
-    }else{
-        res.json({success: false, message: 'Something went wrong.'});
+
+    } else {
+        res.json({ success: false, message: 'Something went wrong.' });
     }
 })
 

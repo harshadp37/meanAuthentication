@@ -205,14 +205,14 @@ export class CommentsComponent implements OnInit {
         $(e.target.children[0]).toggleClass('glyphicon-triangle-bottom')
         $(e.target.children[0]).toggleClass('glyphicon-triangle-top')
 
-        $(e.target.nextElementSibling).toggle('slow');
+        $(e.target.nextElementSibling).toggle();
       })
 
       $('.replyAnchor span').bind('click', function (e) {
         $(this).toggleClass('glyphicon-triangle-bottom')
         $(this).toggleClass('glyphicon-triangle-top')
 
-        $(e.target.parentElement.nextElementSibling).toggle('slow');
+        $(e.target.parentElement.nextElementSibling).toggle();
       })
 
       $('.commentDiv .commentsList ul li').bind('mouseenter', function (e) {
@@ -258,12 +258,12 @@ export class CommentsComponent implements OnInit {
         $('.commentDiv .commentsList .commentFooter .reply-form').each(function () {
           if ($(this)[0] === $(e.target.nextElementSibling)[0] || $(this)[0] === $(e.target.nextElementSibling.nextElementSibling)[0]) {
             if (e.target.nextElementSibling.nodeName === 'DIV') {
-              $(e.target.nextElementSibling).toggle('slow');
+              $(e.target.nextElementSibling).toggle();
             } else {
-              $(e.target.nextElementSibling.nextElementSibling).toggle('slow');
+              $(e.target.nextElementSibling.nextElementSibling).toggle();
             }
           } else if ($(this).is(':visible')) {
-            $(this).hide('slow');
+            $(this).hide();
           }
         })
       })
@@ -274,8 +274,8 @@ export class CommentsComponent implements OnInit {
           if ($(this)[0] === $(e.target.parentElement.parentElement.children[1].children[1])[0]) {
 
             e.target.parentElement.parentElement.children[1].children[1].children[0][0].value = e.target.parentElement.parentElement.children[1].children[0].textContent;
-            $(e.target.parentElement.parentElement.children[1].children[0]).toggle('slow')
-            $(e.target.parentElement.parentElement.children[1].children[1]).toggle('slow')
+            $(e.target.parentElement.parentElement.children[1].children[0]).toggle()
+            $(e.target.parentElement.parentElement.children[1].children[1]).toggle()
 
           } else if ($(this).is(':visible') || $(this.parentElement.children[0]).not(':visible')) {
             $(this).hide();
@@ -290,8 +290,8 @@ export class CommentsComponent implements OnInit {
           if ($(this)[0] === $(e.target.parentElement.parentElement.children[1].children[1])[0]) {
 
             e.target.parentElement.parentElement.children[1].children[1].children[0][0].value = e.target.parentElement.parentElement.children[1].children[0].textContent;
-            $(e.target.parentElement.parentElement.children[1].children[0]).toggle('slow')
-            $(e.target.parentElement.parentElement.children[1].children[1]).toggle('slow')
+            $(e.target.parentElement.parentElement.children[1].children[0]).toggle()
+            $(e.target.parentElement.parentElement.children[1].children[1]).toggle()
 
           } else if ($(this).is(':visible') || $(this.parentElement.children[0]).not(':visible')) {
             $(this).hide();
