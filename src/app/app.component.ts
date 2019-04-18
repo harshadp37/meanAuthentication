@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
   }
 
   notificationClick(notificationID, notificationSeen, target, index) {
-    this.router.navigateByUrl('/MEAN/intro&setup')
+    this.router.navigateByUrl('/MEAN/intro&setup');
     let checkCommentList = setInterval(() => {
       $('body').css('cursor', 'wait')
       if ($('.commentsList').is(':visible')) {

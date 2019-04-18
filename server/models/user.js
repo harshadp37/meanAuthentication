@@ -54,10 +54,6 @@ var userSchema = new mongoose.Schema({
         required: true,
         validate: nameValidator,
     },
-    profilePic: {
-        fileType: { type: String },
-        value: { type: String }
-    },
     username: {
         type: String,
         required: true,
@@ -75,6 +71,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true,
         validate: passwordValidator
+    },
+    profilePic: {
+        fileType: { type: String },
+        value: { type: String }
     },
     passwordResetToken: {
         type: String,

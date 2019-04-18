@@ -189,47 +189,55 @@ router.post('/saveReply/:commentID', (req, res) => {
             } else if (!doc) {
                 res.json({ success: false, message: 'Reply not Saved...Something went Wrong.' })
             } else {
-                var newReply = new Reply({
-                    repliedBy: req.decoded._id,
-                    body: req.body.replyBody,
-                    createdAt: Date.now()
-                })
-                task.save(newReply);
-                task.update(doc, { $push: { replys: newReply } })
-                task.run({ useMongoose: true })
-                    .then((results) => {
-                        res.json({ success: true, message: "Reply Saved!!" })
-                    })
-                    .catch((err) => {
-                        res.json({ success: false, message: err })
-                    })
-                if (req.decoded._id !== doc.createdBy) {
-                    User.findOne({ _id: doc.createdBy }, { notificationList: 1 }, (err, commentUser) => {
-                        if (err) {
-                            res.json({ success: false, message: err });
-                        } else if (!commentUser) {
-                            res.json({ success: false, message: "Reply not Saved...Something went Wrong." });
-                        } else {
-                            var newNotification = Notification({
-                                user: doc.createdBy,
-                                from: req.decoded._id,
-                                body: "replied on your comment.",
-                                target: {
-                                    post: doc.post,
-                                    commentID: doc,
-                                    replyID: newReply
-                                },
-                                notificationDate: Date.now()
+                doc.populate('createdBy', { username: 1 }, null, {}, (err, doc) => {
+                    if (err) {
+                        res.json({ success: false, message: 'Reply not Saved...Something went Wrong.' })
+                    } else if (!doc) {
+                        res.json({ success: false, message: 'Reply not Saved...Something went Wrong.' })
+                    }else{
+                        var newReply = new Reply({
+                            repliedBy: req.decoded._id,
+                            body: req.body.replyBody,
+                            createdAt: Date.now()
+                        })
+                        task.save(newReply);
+                        task.update(doc, { $push: { replys: newReply } })
+                        task.run({ useMongoose: true })
+                            .then((results) => {
+                                res.json({ success: true, message: "Reply Saved!!" })
                             })
-                            newNotification.save();
-                            commentUser.notificationList.push(newNotification);
-                            commentUser.save();
-                            sendOtherNotification(req, doc, newReply)
+                            .catch((err) => {
+                                res.json({ success: false, message: err })
+                            })
+                        if (req.decoded._id != doc.createdBy._id) {
+                            User.findOne({ _id: doc.createdBy._id }, { notificationList: 1 }, (err, commentUser) => {
+                                if (err) {
+                                    res.json({ success: false, message: err });
+                                } else if (!commentUser) {
+                                    res.json({ success: false, message: "Reply not Saved...Something went Wrong." });
+                                } else {
+                                    var newNotification = Notification({
+                                        user: doc.createdBy._id,
+                                        from: req.decoded._id,
+                                        body: "replied on your comment.",
+                                        target: {
+                                            post: doc.post,
+                                            commentID: doc,
+                                            replyID: newReply
+                                        },
+                                        notificationDate: Date.now()
+                                    })
+                                    newNotification.save();
+                                    commentUser.notificationList.push(newNotification);
+                                    commentUser.save();
+                                    sendOtherNotification(req, doc, newReply)
+                                }
+                            })
+                        } else {
+                            sendOtherNotification(req, doc, newReply);
                         }
-                    })
-                } else {
-                    sendOtherNotification(req, doc, newReply);
-                }
+                    }
+                })
             }
         })
     } else {
@@ -239,18 +247,25 @@ router.post('/saveReply/:commentID', (req, res) => {
 
 function sendOtherNotification(req, doc, newReply) {
     if (doc.replys.length != 0) {
-        Reply.find({ _id: doc.replys }, (err, replys) => {
+        Reply.find({ _id: doc.replys }).distinct('repliedBy', (err, replys) => {
             if (err) {
                 console.log(err);
             } else if (!replys) {
                 console.log('Replys not found');
             } else {
                 let replysUsername = [];
+                console.log(doc.createdBy._id)
+                console.log(replys[2]);
+                console.log(doc.createdBy._id.toString() == replys[2]);
+                console.log(req.decoded._id)
+                console.log(replys[1]);
+                console.log(req.decoded._id == replys[1]);
                 for (let i = 0; i < replys.length; i++) {
-                    if (req.decoded._id !== replys[i].repliedBy && doc.createdBy !== replys[i].repliedBy) {
-                        replysUsername.indexOf(replys[i].repliedBy) === -1 ? replysUsername.push(replys[i].repliedBy) : '';
+                    if (req.decoded._id != replys[i] && doc.createdBy._id.toString() != replys[i]) {
+                        replysUsername.push(replys[i]);
                     }
                 }
+                console.log(replysUsername);
                 for (let j = 0; j < replysUsername.length; j++) {
                     User.findOne({ _id: replysUsername[j] }, { notificationList: 1 }, (err, replyUser) => {
                         if (err) {
@@ -261,7 +276,7 @@ function sendOtherNotification(req, doc, newReply) {
                             var newNotification = Notification({
                                 user: replysUsername[j],
                                 from: req.decoded._id,
-                                body: "also replied on " + (req.decoded._id === doc.createdBy ? 'his' : doc.createdBy + "'s") + " comment.",
+                                body: "also replied on " + (req.decoded._id == doc.createdBy._id ? 'his' : doc.createdBy.username + "'s") + " comment.",
                                 target: {
                                     post: doc.post,
                                     commentID: doc,
