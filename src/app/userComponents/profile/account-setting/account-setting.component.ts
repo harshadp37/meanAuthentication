@@ -67,13 +67,15 @@ export class AccountSettingComponent implements OnInit {
       $("#pp").css("width", "+=120");
       $("#pp").css("height", "+=120");
       console.log($('#pp').width() + "  " + $('#pp').height())
-      console.log($('.profilePicDiv').scrollLeft() + "  " + $('.profilePicDiv').scrollTop());
     }
-    else {
+    else if($('#pp').css("width") > "345") {
       $("#pp").css("width", "-=120");
       $("#pp").css("height", "-=120");
       console.log($('#pp').width() + "  " + $('#pp').height())
-      console.log($('.profilePicDiv').scrollLeft() + "  " + $('.profilePicDiv').scrollTop());
+    }else{
+      $("#pp").css("width", "225");
+      $("#pp").css("height", "225");
+      console.log($('#pp').width() + "  " + $('#pp').height())
     }
   }
 

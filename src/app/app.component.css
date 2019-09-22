@@ -242,6 +242,10 @@ nav ul li a:hover{
     white-space: nowrap;
 }
 
+.profileMenu ul .profileName a{
+    font-size: 19px;
+}
+
 .profileMenu ul li{
     margin: 5px;
     margin-right: 40px;

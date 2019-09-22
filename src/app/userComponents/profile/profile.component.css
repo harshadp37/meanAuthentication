@@ -1,6 +1,7 @@
 .header{
     padding: 1rem;
-    border: 1px solid #00000057;
+    border: 1px solid #023d4e;
+    background-color: #3f97b1;
 }
 
 .header .headerWrapper{
